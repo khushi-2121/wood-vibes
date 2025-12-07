@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Logged Out - Wooden Vibes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    :root{--wood1:#8b5e3c;--wood2:#5e3d22;--text:#222;--muted:#6b6b6b}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Arial,system-ui,"Segoe UI",Roboto,Helvetica,14px;color:var(--text);background:#fafafa;padding-top:90px}
+    header{width:100%;background:white;box-shadow:0 2px 10px rgba(0,0,0,0.07);position:fixed;top:0;left:0;z-index:999}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:10px 20px;gap:20px}
+    .brand{display:flex;align-items:center;gap:10px}
+    .logo{background:var(--wood1);color:white;padding:0;border-radius:8px;height:60px;display:flex;align-items:center;justify-content:center}
+    .container{max-width:900px;margin:0 auto;padding:20px;display:flex;align-items:center;justify-content:center;min-height:60vh}
+    .card{background:white;padding:36px;border-radius:12px;box-shadow:0 6px 30px rgba(0,0,0,0.08);text-align:center;max-width:720px}
+    .card h1{margin:0 0 8px;color:var(--wood1);font-family:"Playfair Display",serif;font-size:28px}
+    .card p{margin:0 0 18px;color:var(--muted)}
+    .actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    .btn{padding:10px 20px;border-radius:6px;border:none;cursor:pointer;font-weight:700}
+    .btn-primary{background:var(--wood1);color:white}
+    .btn-secondary{background:transparent;border:1px solid rgba(0,0,0,0.1);color:var(--text)}
+    .countdown{margin-top:12px;color:var(--muted);font-size:14px}
+    footer{margin-top:28px;padding:28px 22px;background:transparent;border-top:1px solid rgba(0,0,0,0.03)}
+    .foot-inner{max-width:1150px;margin:0 auto;display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+    @media(max-width:600px){.card{padding:20px}.nav{padding:8px}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="nav">
+    <div class="brand">
+      <div class="logo"><img src="logo.jpg.jpg" alt="Wood Vibes" style="width:151%;height:135%;object-fit:contain"></div>
+      <div style="line-height:1">
+        <div style="font-weight:700;color:var(--wood2)">Wood Vibes</div>
+        <div style="font-size:12px;color:var(--muted)">Handcrafted wooden kitchenware</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:18px">
+      <a href="index.html" style="color:var(--wood1);text-decoration:none;font-weight:600">Home</a>
+      <a href="cart.html" style="color:var(--wood1);text-decoration:none;font-weight:600">Cart</a>
+      <a href="signin.html" style="color:var(--wood1);text-decoration:none;font-weight:600">Sign In</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="card" role="region" aria-labelledby="logoutTitle">
+      <h1 id="logoutTitle">You are now signed out</h1>
+      <p id="logoutDesc">You've successfully logged out of your Wooden Vibes account. We'll keep your wishlist and cart ready for you.</p>
+
+      <div class="actions">
+        <a class="btn btn-primary" href="signin.html">Sign In</a>
+        <a class="btn btn-secondary" href="index.html">Continue Shopping</a>
+        <a class="btn btn-secondary" href="/" onclick="event.preventDefault();window.location.href='index.html'">Go to Home</a>
+      </div>
+
+      <div class="countdown" id="countdownText">Redirecting to home in <span id="secs">6</span> seconds...</div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="foot-inner">
+    <div>
+      <h3 style="margin:0;color:var(--wood2)">Wooden Vibes</h3>
+      <p style="margin:6px 0 0;color:var(--muted)">Handcrafted wooden kitchenware</p>
+    </div>
+    <div class="social" style="display:flex;gap:12px;align-items:center">
+      <a href="https://wa.me/919825060964" style="color:var(--wood1);text-decoration:none" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      <a href="#" style="color:var(--wood1);text-decoration:none" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Clear auth/session keys but keep cart & wishlist intact
+  (function(){
+    try{
+      localStorage.removeItem('logged_in');
+      localStorage.removeItem('customerName');
+      localStorage.removeItem('customerEmail');
+      localStorage.removeItem('joinDate');
+      // optionally remove any session tokens if present
+      localStorage.removeItem('session_token');
+    }catch(e){
+      console.warn('Failed to clear auth keys', e);
+    }
+  })();
+
+  // Countdown and redirect logic
+  (function(){
+    var secsEl = document.getElementById('secs');
+    var counter = 6;
+    var id = setInterval(function(){
+      counter--; if(counter <= 0){
+        clearInterval(id);
+        window.location.href = 'index.html';
+      }
+      if(secsEl) secsEl.textContent = counter;
+    }, 1000);
+  })();
+</script>
+</body>
+</html>

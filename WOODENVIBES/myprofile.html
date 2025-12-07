@@ -1,0 +1,950 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>My Profile - Wooden Vibes</title>
+
+  <!-- Fonts & icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    :root{
+      --wood1:#8b5e3c;
+      --wood2:#5e3d22;
+      --text:#222;
+      --bg: #FAF7F2;
+      --deep: #5D4037;
+      --muted: #6b6b6b;
+      --glass: rgba(255,255,255,0.55);
+      --radius: 12px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Arial, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue";
+      background:#fafafa;
+      color:var(--text);
+      padding-top:90px;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+    }
+
+    /* NAV BAR BASE */
+    header{
+      width:100%;
+      background:white;
+      box-shadow:0 2px 10px rgba(0,0,0,0.07);
+      position:fixed;
+      top:0;
+      left:0;
+      z-index:999;
+    }
+
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:10px 20px;
+      gap:20px;
+    }
+
+    /* BRAND */
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .logo{
+      background:var(--wood1);
+      color:white;
+      font-weight:bold;
+      padding:0;
+      border-radius:8px;
+      font-size:18px;
+      height:60px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-shrink:0;
+    }
+
+    .brand h1{
+      margin:0;
+      font-size:20px;
+      color:var(--wood2);
+    }
+    .brand p{
+      margin:0;
+      font-size:12px;
+      color:#444;
+    }
+
+    /* SEARCH BAR */
+    .search-box{
+      flex:1;
+      max-width:420px;
+      display:flex;
+      align-items:center;
+      background:white;
+      border-radius:14px;
+      padding:6px 12px;
+      border:1px solid rgba(0,0,0,0.08);
+    }
+
+    .search-box input{
+      width:100%;
+      border:none;
+      outline:none;
+      font-size:14px;
+      background:transparent;
+    }
+
+    .search-box i{
+      color:var(--wood1);
+    }
+
+    /* RIGHT ICONS */
+    .right-icons{
+      display:flex;
+      align-items:center;
+      gap:18px;
+    }
+
+    .right-icons i{
+      font-size:20px;
+      color:var(--wood1);
+      cursor:pointer;
+    }
+
+    /* CART */
+    .cart-link{
+      position:relative;
+      text-decoration:none;
+    }
+
+    .cart-badge{
+      position:absolute;
+      top:-6px;
+      right:-10px;
+      background:red;
+      color:white;
+      font-size:10px;
+      padding:2px 6px;
+      border-radius:50px;
+    }
+
+    /* PROFILE DROPDOWN */
+    .profile-wrapper{
+      position:relative;
+    }
+
+    .profile-menu{
+      position:absolute;
+      top:40px;
+      right:0;
+      width:220px;
+      padding:12px 0;
+      background:white;
+      border-radius:12px;
+      display:none;
+      flex-direction:column;
+      box-shadow:0 8px 24px rgba(0,0,0,0.15);
+    }
+
+    .profile-menu a{
+      padding:12px 18px;
+      color:var(--text);
+      text-decoration:none;
+      border-bottom:1px solid rgba(0,0,0,0.05);
+      font-size:15px;
+    }
+
+    .profile-menu a:hover{
+      background:rgba(139,94,60,0.1);
+    }
+
+    .logout{
+      color:#c62828 !important;
+    }
+
+    /* MAIN CONTENT */
+    .container{
+      max-width:1200px;
+      margin:0 auto;
+      padding:20px;
+      display:grid;
+      grid-template-columns:280px 1fr;
+      gap:20px;
+      animation:fadeInUp 0.6s ease;
+    }
+
+    @keyframes fadeInUp{
+      from{
+        opacity:0;
+        transform:translateY(20px);
+      }
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
+
+    /* SIDEBAR */
+    .sidebar{
+      display:flex;
+      flex-direction:column;
+      gap:0;
+    }
+
+    .sidebar-card{
+      background:white;
+      box-shadow:0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom:8px;
+      overflow:hidden;
+      border-radius:4px;
+    }
+
+    .sidebar-item{
+      padding:16px 18px;
+      cursor:pointer;
+      border-left:4px solid transparent;
+      transition:all 0.3s ease;
+      font-size:14px;
+      color:var(--text);
+      display:flex;
+      align-items:center;
+      gap:12px;
+      border-bottom:1px solid rgba(0,0,0,0.05);
+    }
+
+    .sidebar-item:last-child{
+      border-bottom:none;
+    }
+
+    .sidebar-item:hover{
+      background:rgba(139,94,60,0.05);
+      border-left-color:var(--wood1);
+      padding-left:16px;
+    }
+
+    .sidebar-item i{
+      font-size:16px;
+      color:var(--wood1);
+      width:20px;
+      text-align:center;
+    }
+
+    .sidebar-item.active{
+      background:rgba(139,94,60,0.08);
+      border-left-color:var(--wood1);
+      font-weight:600;
+      color:var(--wood1);
+    }
+
+    /* MAIN CONTENT AREA */
+    .main-content{
+      display:flex;
+      flex-direction:column;
+      gap:20px;
+    }
+
+    /* PROFILE HEADER CARD */
+    .profile-header{
+      background:white;
+      border-radius:4px;
+      padding:24px;
+      box-shadow:0 2px 8px rgba(0,0,0,0.1);
+      display:flex;
+      align-items:flex-start;
+      gap:24px;
+      border-top:4px solid var(--wood1);
+    }
+
+    .profile-avatar{
+      width:100px;
+      height:100px;
+      background:linear-gradient(135deg, var(--wood1) 0%, var(--wood2) 100%);
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:white;
+      font-size:48px;
+      flex-shrink:0;
+      box-shadow:0 4px 12px rgba(139,94,60,0.2);
+    }
+
+    .profile-details{
+      flex:1;
+    }
+
+    .profile-info h2{
+      margin:0 0 4px;
+      color:var(--wood1);
+      font-size:22px;
+      font-weight:700;
+    }
+
+    .profile-info p{
+      margin:4px 0;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .profile-actions{
+      display:flex;
+      gap:10px;
+      margin-top:12px;
+    }
+
+    .profile-actions button{
+      background:var(--wood1);
+      color:white;
+      border:none;
+      padding:8px 14px;
+      border-radius:4px;
+      cursor:pointer;
+      font-size:13px;
+      font-weight:600;
+      transition:all 0.3s ease;
+    }
+
+    .profile-actions button:hover{
+      background:var(--wood2);
+    }
+
+    /* CONTENT SECTIONS */
+    .content-card{
+      background:white;
+      border-radius:4px;
+      box-shadow:0 2px 8px rgba(0,0,0,0.1);
+      overflow:hidden;
+    }
+
+    .card-header{
+      padding:16px 20px;
+      border-bottom:1px solid rgba(0,0,0,0.08);
+      background:rgba(139,94,60,0.02);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+
+    .card-header h3{
+      margin:0;
+      color:var(--text);
+      font-size:16px;
+      font-weight:700;
+    }
+
+    .card-content{
+      padding:0;
+    }
+
+    /* ADDRESS ITEMS */
+    .address-item{
+      padding:16px 20px;
+      border-bottom:1px solid rgba(0,0,0,0.05);
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:16px;
+    }
+
+    .address-item:last-child{
+      border-bottom:none;
+    }
+
+    .address-info h4{
+      margin:0 0 6px;
+      color:var(--text);
+      font-size:14px;
+      font-weight:700;
+    }
+
+    .address-info p{
+      margin:2px 0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.4;
+    }
+
+    .address-actions{
+      display:flex;
+      gap:10px;
+      white-space:nowrap;
+    }
+
+    .address-actions button{
+      background:none;
+      border:1px solid var(--wood1);
+      color:var(--wood1);
+      padding:6px 12px;
+      border-radius:4px;
+      cursor:pointer;
+      font-size:12px;
+      font-weight:600;
+      transition:all 0.3s ease;
+    }
+
+    .address-actions button:hover{
+      background:var(--wood1);
+      color:white;
+    }
+
+    /* ACCOUNT ROWS */
+    .account-row{
+      padding:16px 20px;
+      border-bottom:1px solid rgba(0,0,0,0.05);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+
+    .account-row:last-child{
+      border-bottom:none;
+    }
+
+    .account-label{
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .account-value{
+      color:var(--text);
+      font-weight:600;
+      font-size:14px;
+    }
+
+    .edit-btn{
+      background:none;
+      border:1px solid var(--wood1);
+      color:var(--wood1);
+      padding:6px 12px;
+      border-radius:4px;
+      cursor:pointer;
+      font-size:12px;
+      font-weight:600;
+      transition:all 0.3s ease;
+    }
+
+    .edit-btn:hover{
+      background:var(--wood1);
+      color:white;
+    }
+
+    /* EMPTY STATE */
+    .empty-state{
+      padding:40px 20px;
+      text-align:center;
+      color:var(--muted);
+    }
+
+    .empty-state i{
+      font-size:48px;
+      color:rgba(139,94,60,0.3);
+      margin-bottom:12px;
+    }
+
+    .empty-state p{
+      margin:0;
+      font-size:14px;
+    }
+
+    /* LOGOUT */
+    .logout-section{
+      padding:16px 20px;
+      background:rgba(198, 40, 40, 0.05);
+      border-top:1px solid rgba(0,0,0,0.08);
+    }
+
+    .logout-btn{
+      background:#c62828;
+      color:white;
+      border:none;
+      padding:10px 14px;
+      border-radius:4px;
+      cursor:pointer;
+      font-weight:600;
+      font-size:13px;
+      width:100%;
+      transition:all 0.3s ease;
+    }
+
+    .logout-btn:hover{
+      background:#b71c1c;
+    }
+
+    /* Footer */
+    footer{
+      margin-top:28px;
+      padding:28px 22px;
+      background:transparent;
+      border-top:1px solid rgba(0,0,0,0.03);
+    }
+
+    .foot-inner{
+      max-width:1150px;
+      margin:0 auto;
+      display:flex;
+      gap:18px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+
+    .social a{
+      color:var(--wood1);
+      margin-right:12px;
+      text-decoration:none;
+      font-size:18px;
+    }
+
+    /* HAMBURGER */
+    .hamburger{
+      display:none;
+      flex-direction:column;
+      cursor:pointer;
+      gap:4px;
+    }
+    .hamburger span{
+      width:25px;
+      height:3px;
+      background:var(--wood2);
+    }
+
+    /* MOBILE MENU */
+    .mobile-menu{
+      display:none;
+      flex-direction:column;
+      background:white;
+      padding:15px;
+      gap:12px;
+      border-top:1px solid #eee;
+    }
+
+    .mobile-search{
+      padding:10px;
+      border-radius:10px;
+      border:1px solid rgba(0,0,0,0.15);
+    }
+
+    .mobile-menu a{
+      text-decoration:none;
+      color:var(--wood2);
+      font-size:16px;
+      padding:8px 0;
+    }
+
+    @media(max-width:768px){
+      .search-box{
+        display:none;
+      }
+      .hamburger{
+        display:flex;
+      }
+      .right-icons{
+        gap:12px;
+      }
+      .profile-header{
+        flex-direction:column;
+        text-align:center;
+        padding:28px 20px;
+      }
+      .profile-info h2{
+        font-size:24px;
+      }
+      .profile-grid{
+        grid-template-columns:1fr;
+      }
+      .section-title{
+        font-size:20px;
+      }
+      .account-row{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:12px;
+      }
+      .edit-btn{
+        align-self:flex-start;
+        width:100%;
+      }
+      .logout-btn{
+        padding:12px 20px;
+        font-size:14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+
+    <!-- LEFT -->
+    <div class="brand">
+      <div class="logo">
+        <img src="logo.jpg.jpg" alt="Wood Vibes Logo" style="width:151%;height:135%;object-fit:contain">
+      </div>
+      <div>
+        <h1>Wood Vibes</h1>
+        <p>Handcrafted wooden kitchenware</p>
+      </div>
+    </div>
+
+    <!-- CENTER SEARCH -->
+    <div class="search-box">
+      <input type="text" placeholder="Search products..." />
+      <button style="background:none;border:none;color:var(--wood1);cursor:pointer;font-size:16px;padding:0 8px"><i class="fa fa-search"></i></button>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="right-icons">
+
+      <!-- PRODUCTS LINK -->
+      <a href="index.html#products" style="text-decoration:none;color:var(--wood1);font-weight:500;font-size:18px;cursor:pointer" title="Products"><i class="fa-solid fa-th"></i></a>
+
+      <!-- ABOUT LINK -->
+      <a href="index.html#about" style="text-decoration:none;color:var(--wood1);font-weight:500;font-size:18px;cursor:pointer" title="About"><i class="fa-solid fa-info-circle"></i></a>
+
+      <!-- CONTACT LINK -->
+      <a href="index.html#contact" style="text-decoration:none;color:var(--wood1);font-weight:500;font-size:18px;cursor:pointer" title="Contact"><i class="fa-solid fa-envelope"></i></a>
+
+      <!-- WISHLIST HEART -->
+      <a href="#" style="text-decoration:none;color:var(--wood1);font-weight:500;font-size:18px;cursor:pointer" title="Wishlist" id="wishlistHeader" onclick="toggleWishlistView(event)"><i class="fa-regular fa-heart"></i></a>
+
+      <!-- CART -->
+      <a href="cart.html" class="cart-link">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span class="cart-badge" id="cartCount">0</span>
+      </a>
+
+      <!-- PROFILE -->
+      <div class="profile-wrapper">
+        <i class="fa-solid fa-user" id="profileBtn"></i>
+
+        <div class="profile-menu" id="profileMenu">
+          <a href="signin.html" style="font-weight:700;color:#fff;background:var(--wood1);border-radius:8px;margin:6px 8px;padding:10px 12px;border:none;text-align:center;transition:all 0.3s ease" onmouseover="this.style.background='var(--wood2)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='var(--wood1)';this.style.transform='translateY(0)'">Sign In</a>
+          <a href="signup.html" style="font-size:12px;color:var(--muted);border:none;padding-top:8px;padding-bottom:8px">New Customer? Start Here</a>
+          <hr style="margin:10px 0;border:none;border-top:1px solid rgba(0,0,0,0.05)">
+          <a href="myprofile.html">My Profile</a>
+          <a href="#">My Orders</a>
+          <a href="#" onclick="toggleWishlistView(event)">Wishlist</a>
+          <a href="#">Saved Address</a>
+          <a href="#">Track Order</a>
+          <a href="#">Help Desk</a>
+          <a href="logout.html" class="logout">Logout</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- HAMBURGER -->
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+  </div>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <input type="text" placeholder="Search..." class="mobile-search">
+
+    <a href="index.html#products">Products</a>
+    <a href="index.html#about">About</a>
+    <a href="index.html#contact">Contact</a>
+
+    <a href="signin.html" style="font-weight:700;color:var(--wood1)">Login</a>
+    <a href="signup.html" style="font-size:12px;color:var(--muted)">New Customer? Start Here</a>
+
+    <a class="btn" href="https://wa.me/91XXXXXXXXXX" target="_blank"><i class="fab fa-whatsapp"></i>&nbsp; Order</a>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-item active" onclick="showSection('account')">
+          <i class="fa-solid fa-user-circle"></i>
+          Account
+        </div>
+        <div class="sidebar-item" onclick="showSection('address')">
+          <i class="fa-solid fa-location-dot"></i>
+          My Addresses
+        </div>
+        <div class="sidebar-item" onclick="showSection('wishlist')">
+          <i class="fa-solid fa-heart"></i>
+          Wishlist
+        </div>
+        <div class="sidebar-item" onclick="showSection('orders')">
+          <i class="fa-solid fa-shopping-bag"></i>
+          My Orders
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+
+      <!-- PROFILE HEADER -->
+      <div class="profile-header">
+        <div class="profile-avatar" id="profileAvatar">👤</div>
+        <div class="profile-details">
+          <div class="profile-info">
+            <h2 id="profileName">Welcome, User</h2>
+            <p id="profileEmail">user@example.com</p>
+            <p id="profileJoined">Member since today</p>
+          </div>
+          <div class="profile-actions">
+            <button onclick="editProfile()">Edit Profile</button>
+            <button onclick="logoutUser()" style="background:#c62828">Logout</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACCOUNT SECTION -->
+      <div id="accountSection" class="content-card" style="display:block">
+        <div class="card-header">
+          <h3>Account Information</h3>
+        </div>
+        <div class="card-content">
+          <div class="account-row">
+            <div>
+              <div class="account-label">Full Name</div>
+              <div class="account-value" id="accountName">User Name</div>
+            </div>
+            <button class="edit-btn" onclick="editProfile()">Edit</button>
+          </div>
+
+          <div class="account-row">
+            <div>
+              <div class="account-label">Email Address</div>
+              <div class="account-value" id="accountEmail">user@example.com</div>
+            </div>
+            <button class="edit-btn" onclick="editProfile()">Edit</button>
+          </div>
+
+          <div class="account-row">
+            <div>
+              <div class="account-label">Phone Number</div>
+              <div class="account-value">Not added</div>
+            </div>
+            <button class="edit-btn" onclick="editProfile()">Add</button>
+          </div>
+
+          <div class="account-row">
+            <div>
+              <div class="account-label">Password</div>
+              <div class="account-value">••••••••</div>
+            </div>
+            <button class="edit-btn" onclick="editProfile()">Change</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADDRESS SECTION -->
+      <div id="addressSection" class="content-card" style="display:none">
+        <div class="card-header">
+          <h3>Saved Addresses</h3>
+          <button class="edit-btn" onclick="addAddress()">+ Add New</button>
+        </div>
+        <div class="card-content" id="addressList">
+          <div class="empty-state">
+            <i class="fa-solid fa-inbox"></i>
+            <p>No saved addresses yet. Add one to make checkout faster!</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- WISHLIST SECTION -->
+      <div id="wishlistSection" class="content-card" style="display:none">
+        <div class="card-header">
+          <h3>My Wishlist</h3>
+        </div>
+        <div class="card-content" id="wishlistList">
+          <div class="empty-state">
+            <i class="fa-solid fa-heart"></i>
+            <p id="wishlistEmptyMsg">Your wishlist is empty</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ORDERS SECTION -->
+      <div id="ordersSection" class="content-card" style="display:none">
+        <div class="card-header">
+          <h3>My Orders</h3>
+        </div>
+        <div class="card-content">
+          <div class="empty-state">
+            <i class="fa-solid fa-package"></i>
+            <p>No orders yet. Start shopping to see orders here!</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+
+<footer>
+  <div class="foot-inner">
+    <div>
+      <h3>Wooden Vibes</h3>
+      <p>Handcrafted wooden kitchenware</p>
+      <p>Email: info@woodenvibes.com</p>
+      <p>Phone: +91XXXXXXXXXX</p>
+    </div>
+    <div class="social">
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-pinterest-p"></i></a>
+      <a href="#"><i class="fab fa-whatsapp"></i></a>
+    </div>
+  </div>
+</footer>
+
+</body>
+<script>
+  /* PROFILE DROPDOWN */
+  const profileBtn = document.getElementById("profileBtn");
+  const profileMenu = document.getElementById("profileMenu");
+
+  profileBtn.onclick = () => {
+    profileMenu.style.display =
+      profileMenu.style.display === "flex" ? "none" : "flex";
+  };
+
+  document.addEventListener("click", (e)=>{
+    if(!profileBtn.contains(e.target) && !profileMenu.contains(e.target)){
+      profileMenu.style.display="none";
+    }
+  });
+
+  /* HAMBURGER */
+  const ham = document.getElementById("hamburger");
+  const mobMenu = document.getElementById("mobileMenu");
+
+  ham.onclick = () =>{
+    mobMenu.style.display =
+      mobMenu.style.display==="flex" ? "none":"flex";
+  };
+
+  /* LOAD PROFILE INFO */
+  function loadProfileInfo(){
+    var custName = localStorage.getItem('customerName') || 'User';
+    var custEmail = localStorage.getItem('customerEmail') || 'user@example.com';
+    var joinDate = localStorage.getItem('joinDate') || 'today';
+
+    document.getElementById('profileName').textContent = 'Welcome, ' + custName;
+    document.getElementById('profileEmail').textContent = custEmail;
+    document.getElementById('profileJoined').textContent = 'Member since ' + joinDate;
+    document.getElementById('accountName').textContent = custName;
+    document.getElementById('accountEmail').textContent = custEmail;
+
+    // Update wishlist count
+    loadWishlistSection();
+    
+    // Update cart count
+    var cart = JSON.parse(localStorage.getItem('wv_cart') || '[]');
+    var cartTotal = cart.reduce((sum, item) => sum + (item.q || 0), 0);
+    var cartBadge = document.getElementById('cartCount');
+    if(cartBadge) cartBadge.textContent = cartTotal;
+  }
+
+  /* SHOW SECTION */
+  function showSection(section){
+    // Hide all sections
+    document.getElementById('accountSection').style.display = 'none';
+    document.getElementById('addressSection').style.display = 'none';
+    document.getElementById('wishlistSection').style.display = 'none';
+    document.getElementById('ordersSection').style.display = 'none';
+
+    // Remove active class from all sidebar items
+    document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
+
+    // Show selected section
+    document.getElementById(section + 'Section').style.display = 'block';
+
+    // Add active class to clicked sidebar item
+    event.target.closest('.sidebar-item').classList.add('active');
+  }
+
+  /* LOAD WISHLIST SECTION */
+  function loadWishlistSection(){
+    var wishlist = JSON.parse(localStorage.getItem('wv_wishlist') || '[]');
+    var wishlistList = document.getElementById('wishlistList');
+    var wishlistEmptyMsg = document.getElementById('wishlistEmptyMsg');
+
+    if(wishlist.length === 0){
+      wishlistList.innerHTML = '<div class="empty-state"><i class="fa-solid fa-heart"></i><p>Your wishlist is empty 💔</p></div>';
+      return;
+    }
+
+    var html = '';
+    wishlist.forEach(function(product, index){
+      html += '<div class="address-item">';
+      html += '<div><h4>' + product + '</h4><p>Added to wishlist</p></div>';
+      html += '<div class="address-actions">';
+      html += '<button onclick="removeFromWishlist(\'' + product.replace(/'/g, "\\'") + '\')">Remove</button>';
+      html += '</div></div>';
+    });
+    wishlistList.innerHTML = html;
+  }
+
+  /* EDIT PROFILE */
+  function editProfile(){
+    alert('Edit functionality coming soon!');
+  }
+
+  /* ADD ADDRESS */
+  function addAddress(){
+    alert('Add address functionality coming soon!');
+  }
+
+  /* REMOVE FROM WISHLIST */
+  function removeFromWishlist(product){
+    var wishlist = JSON.parse(localStorage.getItem('wv_wishlist') || '[]');
+    wishlist = wishlist.filter(p => p !== product);
+    localStorage.setItem('wv_wishlist', JSON.stringify(wishlist));
+    
+    // Update the heart icon on product card if page is from index
+    document.querySelectorAll('.wishlist-btn').forEach(function(btn){
+      if(btn.getAttribute('data-product') === product){
+        btn.classList.remove('added');
+        btn.innerHTML = '<i class="fa-regular fa-heart"></i>';
+      }
+    });
+    
+    // Refresh wishlist display
+    loadWishlistSection();
+  }
+
+  
+  /* LOGOUT */
+  function logoutUser(){
+    if(confirm('Are you sure you want to logout?')){
+      localStorage.removeItem('logged_in');
+      localStorage.removeItem('customerName');
+      localStorage.removeItem('customerEmail');
+      window.location.href = 'index.html';
+    }
+  }
+
+  /* INITIALIZE PAGE */
+  document.addEventListener('DOMContentLoaded', function(){
+    loadProfileInfo();
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Login - Wooden Vibes</title>
+
+  <!-- Fonts & icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    :root{
+      --bg: #FAF7F2;
+      --wood1: #8B5E3C;
+      --wood2: #C8A165;
+      --deep: #5D4037;
+      --text: #2E2E2E;
+      --muted: #6b6b6b;
+      --error: #d32f2f;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg, #FBFAF8 0%, #F6F3F0 100%);
+      color:var(--text);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-height:100vh;
+      padding:20px;
+    }
+
+    /* Header */
+    header{
+      position:fixed;
+      top:0;
+      left:0;
+      right:0;
+      backdrop-filter: blur(6px);
+      background: linear-gradient(180deg, rgba(250,247,242,0.85), rgba(250,247,242,0.6));
+      border-bottom:1px solid rgba(0,0,0,0.04);
+      z-index:1000;
+    }
+    .nav{
+      max-width:1150px;
+      margin:0 auto;
+      padding:18px 22px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      text-decoration:none;
+      color:var(--text);
+    }
+    .logo{
+      width:50px;
+      height:50px;
+      border-radius:10px;
+      background: linear-gradient(135deg,var(--wood1),var(--wood2));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:white;
+      font-weight:700;
+      font-family:"Playfair Display", serif;
+    }
+    .brand-text h1{
+      font-size:16px;
+      margin:0;
+      line-height:1;
+    }
+    .brand-text p{
+      margin:0;
+      font-size:11px;
+      color:var(--muted);
+    }
+    .back-link{
+      color:var(--wood1);
+      text-decoration:none;
+      font-weight:600;
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+    .back-link:hover{
+      text-decoration:underline;
+    }
+
+    /* Login Container */
+    .login-container{
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.88));
+      border-radius:18px;
+      padding:40px;
+      box-shadow: 0 12px 40px rgba(30,30,30,0.08);
+      max-width:420px;
+      width:100%;
+      margin-top:100px;
+    }
+
+    .login-header{
+      text-align:center;
+      margin-bottom:32px;
+    }
+    .login-header h2{
+      font-family:"Playfair Display", serif;
+      font-size:28px;
+      color:var(--wood1);
+      margin:0 0 8px;
+    }
+    .login-header p{
+      color:var(--muted);
+      margin:0;
+      font-size:14px;
+    }
+
+    .form-group{
+      margin-bottom:20px;
+    }
+    .form-group label{
+      display:block;
+      margin-bottom:8px;
+      font-weight:600;
+      color:var(--text);
+      font-size:14px;
+    }
+    .form-group input{
+      width:100%;
+      padding:12px 14px;
+      border:1px solid rgba(0,0,0,0.08);
+      border-radius:10px;
+      font-family:inherit;
+      font-size:14px;
+      transition:border-color 0.2s ease;
+    }
+    .form-group input:focus{
+      outline:none;
+      border-color:var(--wood1);
+      box-shadow:0 0 0 3px rgba(139,94,60,0.1);
+    }
+
+    .remember-forgot{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:24px;
+      font-size:13px;
+    }
+    .remember-forgot a{
+      color:var(--wood1);
+      text-decoration:none;
+      font-weight:600;
+    }
+    .remember-forgot a:hover{
+      text-decoration:underline;
+    }
+
+    .login-btn{
+      width:100%;
+      padding:12px;
+      background:linear-gradient(90deg,var(--wood2),var(--wood1));
+      color:white;
+      border:none;
+      border-radius:10px;
+      font-weight:700;
+      font-size:16px;
+      cursor:pointer;
+      transition:transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 8px 20px rgba(139,94,60,0.15);
+    }
+    .login-btn:hover{
+      transform:translateY(-2px);
+      box-shadow: 0 12px 28px rgba(139,94,60,0.2);
+    }
+    .login-btn:active{
+      transform:translateY(0);
+    }
+
+    .signup-text{
+      text-align:center;
+      margin-top:20px;
+      font-size:14px;
+      color:var(--muted);
+    }
+    .signup-text a{
+      color:var(--wood1);
+      text-decoration:none;
+      font-weight:600;
+    }
+    .signup-text a:hover{
+      text-decoration:underline;
+    }
+
+    .error-message{
+      display:none;
+      background:#ffebee;
+      color:var(--error);
+      padding:12px;
+      border-radius:8px;
+      margin-bottom:20px;
+      font-size:13px;
+      border-left:4px solid var(--error);
+    }
+    .error-message.show{
+      display:block;
+    }
+
+    .success-message{
+      display:none;
+      background:#e8f5e9;
+      color:#2e7d32;
+      padding:12px;
+      border-radius:8px;
+      margin-bottom:20px;
+      font-size:13px;
+      border-left:4px solid #2e7d32;
+    }
+    .success-message.show{
+      display:block;
+    }
+
+    /* Responsive */
+    @media (max-width:768px){
+      .login-container{
+        padding:28px;
+        margin-top:90px;
+      }
+      .login-header h2{
+        font-size:24px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a href="index.html" class="brand">
+      <div class="logo">WV</div>
+      <div class="brand-text">
+        <h1>Wooden Vibes</h1>
+        <p>Handcrafted wooden kitchenware</p>
+      </div>
+    </a>
+    <a href="index.html" class="back-link">
+      <i class="fa-solid fa-arrow-left"></i> Back to Home
+    </a>
+  </div>
+</header>
+
+<div class="login-container">
+  <div class="login-header">
+    <h2>Welcome Back</h2>
+    <p>Login to your Wooden Vibes account</p>
+  </div>
+
+  <form id="loginForm">
+    <div class="error-message" id="errorMessage"></div>
+    <div class="success-message" id="successMessage"></div>
+
+    <div class="form-group">
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" placeholder="Enter your email" required>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Enter your password" required>
+    </div>
+
+    <div class="remember-forgot">
+      <label style="display:flex;gap:8px;align-items:center;cursor:pointer;margin:0">
+        <input type="checkbox" id="remember" name="remember" style="width:16px;height:16px;cursor:pointer">
+        <span>Remember me</span>
+      </label>
+      <a href="#forgot">Forgot Password?</a>
+    </div>
+
+    <button type="submit" class="login-btn">Login</button>
+  </form>
+
+  <div class="signup-text">
+    Don't have an account? <a href="signup.html">Sign up here</a>
+  </div>
+</div>
+
+<script>
+document.getElementById('loginForm').onsubmit = e => {
+  e.preventDefault();
+  let e_el = document.getElementById('errorMessage');
+  let s_el = document.getElementById('successMessage');
+  let em = document.getElementById('email').value;
+  let pw = document.getElementById('password').value;
+  
+  if (!em || !pw) {
+    e_el.textContent = 'Fill all fields';
+    e_el.classList.add('show');
+    return;
+  }
+  
+  // Save login info to localStorage
+  localStorage.setItem('logged_in', 'yes');
+  localStorage.setItem('customerName', em.split('@')[0]); // Use email username as name
+  
+  s_el.textContent = 'Success!';
+  s_el.classList.add('show');
+  setTimeout(() => location.href = 'index.html', 1500);
+};
+
+let pwd = document.getElementById('password');
+let btn = document.createElement('button');
+btn.type = 'button';
+btn.innerHTML = '<i class="fa-solid fa-eye"></i>';
+btn.onclick = e => {
+  e.preventDefault();
+  pwd.type = pwd.type == 'password' ? 'text' : 'password';
+  btn.innerHTML = pwd.type == 'password' ? '<i class="fa-solid fa-eye"></i>' : '<i class="fa-solid fa-eye-slash"></i>';
+};
+btn.style.cssText = 'position:absolute;right:12px;top:38px;background:none;border:none;cursor:pointer;color:var(--wood1);font-size:16px';
+pwd.parentElement.style.position = 'relative';
+pwd.parentElement.appendChild(btn);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1912 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Wooden Vibes</title>
+
+  <!-- Fonts & icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    :root{
+      --wood1:#8b5e3c;
+      --wood2:#5e3d22;
+      --text:#222;
+      --bg: #FAF7F2;
+      --deep: #5D4037;
+      --muted: #6b6b6b;
+      --glass: rgba(255,255,255,0.55);
+      --radius: 12px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Arial, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue";
+      background:#fafafa;
+      color:var(--text);
+      padding-top:90px;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+    }
+
+    /* NAV BAR BASE */
+    header{
+      width:100%;
+      background:white;
+      box-shadow:0 2px 10px rgba(0,0,0,0.07);
+      position:fixed;
+      top:0;
+      left:0;
+      z-index:999;
+    }
+
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:flex-start;
+      padding:10px 20px;
+      gap:16px;
+      flex-wrap:nowrap;
+      position:relative;
+    }
+
+    /* BRAND */
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-shrink:0;
+      flex-shrink:0;
+    }
+
+    .logo{
+      background:var(--wood1);
+      color:white;
+      font-weight:bold;
+      padding:0;
+      border-radius:6px;
+      font-size:14px;
+      height:50px;
+      width:50px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-shrink:0;
+    }
+
+    .brand h1{
+      margin:0;
+      font-size:18px;
+      color:var(--wood2);
+      line-height:1;
+      white-space:nowrap;
+    }
+    .brand p{
+      margin:0;
+      font-size:11px;
+      color:#666;
+      display:none;
+    }
+
+    /* SEARCH BAR */
+    .search-box{
+      flex:1;
+      max-width:420px;
+      display:flex;
+      align-items:center;
+      background:white;
+      border-radius:14px;
+      padding:6px 12px;
+      border:1px solid rgba(0,0,0,0.08);
+      order:3;
+    }
+
+    .search-box input{
+      width:100%;
+      border:none;
+      outline:none;
+      font-size:14px;
+      background:transparent;
+    }
+
+    .search-box i{
+      color:var(--wood1);
+    }
+
+    /* RIGHT ICONS */
+    .right-icons{
+      display:flex;
+      align-items:center;
+      gap:18px;
+      margin-left:auto;
+      order:4;
+      flex-shrink:0;
+    }
+
+    .right-icons i{
+      font-size:20px;
+      color:var(--wood1);
+      cursor:pointer;
+    }
+
+    /* CART */
+    .cart-link{
+      position:relative;
+      text-decoration:none;
+    }
+
+    .cart-badge{
+      position:absolute;
+      top:-6px;
+      right:-10px;
+      background:red;
+      color:white;
+      font-size:10px;
+      padding:2px 6px;
+      border-radius:50px;
+    }
+
+    /* Cart preview dropdown */
+    .cart-preview{
+      position:absolute;
+      right:0;
+      top:42px;
+      width:320px;
+      background:white;
+      border-radius:10px;
+      box-shadow:0 12px 40px rgba(0,0,0,0.12);
+      padding:12px;
+      display:none;
+      z-index:1200;
+    }
+    .cart-preview.show{display:block}
+    .cart-preview .item{display:flex;gap:10px;align-items:center;padding:8px 6px;border-bottom:1px solid rgba(0,0,0,0.05)}
+    .cart-preview .item img{width:56px;height:48px;object-fit:cover;border-radius:6px}
+    .cart-preview .item .info{flex:1}
+    .cart-preview .item .info h5{margin:0;font-size:14px}
+    .cart-preview .item .info p{margin:4px 0 0;font-size:13px;color:var(--muted)}
+    .cart-preview .empty{padding:18px;text-align:center;color:var(--muted)}
+    .cart-preview .total{display:flex;justify-content:space-between;padding:10px 6px;font-weight:700}
+    .cart-preview .preview-actions{display:flex;gap:8px;justify-content:flex-end}
+
+    /* Product badges & ratings */
+    .product-badge{display:inline-block;background:var(--wood1);color:white;font-size:11px;padding:4px 8px;border-radius:12px;margin-bottom:8px}
+    .rating{color:#f5b301;font-size:13px;margin-top:6px}
+
+    /* PROFILE DROPDOWN */
+    .profile-wrapper{
+      position:relative;
+    }
+
+    .profile-menu{
+      position:absolute;
+      top:40px;
+      right:0;
+      width:220px;
+      padding:12px 0;
+      background:white;
+      border-radius:12px;
+      display:none;
+      flex-direction:column;
+      box-shadow:0 8px 24px rgba(0,0,0,0.15);
+    }
+
+    .profile-menu a{
+      padding:12px 18px;
+      color:var(--text);
+      text-decoration:none;
+      border-bottom:1px solid rgba(0,0,0,0.05);
+      font-size:15px;
+    }
+
+    .profile-menu a:hover{
+      background:rgba(139,94,60,0.1);
+    }
+
+    .logout{
+      color:#c62828 !important;
+    }
+
+    /* WELCOME BANNER */
+    .welcome-banner{
+      display:none;
+      background:linear-gradient(135deg, var(--wood1) 0%, var(--wood2) 100%);
+      color:white;
+      padding:16px 24px;
+      text-align:center;
+      font-weight:600;
+      font-size:15px;
+      align-items:center;
+      justify-content:center;
+      gap:16px;
+      position:relative;
+      z-index:900;
+      flex-wrap:wrap;
+      box-shadow:0 6px 25px rgba(139,94,60,0.3);
+      animation:slideDown 0.5s ease-out;
+      border-radius:12px;
+      margin:12px auto;
+      max-width:900px;
+      width:95%;
+      margin-left:auto;
+      margin-right:auto;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity:0;
+        transform:translateY(-20px);
+      }
+      to {
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity:1;
+        transform:translateY(0);
+      }
+      to {
+        opacity:0;
+        transform:translateY(-20px);
+      }
+    }
+
+    .welcome-banner.show{
+      display:flex;
+    }
+
+    .welcome-banner span {
+      font-size:17px;
+      font-weight:700;
+      letter-spacing:0.5px;
+    }
+
+    .welcome-banner a{
+      background:white;
+      color:var(--wood1);
+      padding:10px 22px;
+      border-radius:8px;
+      text-decoration:none;
+      font-weight:700;
+      font-size:14px;
+      transition:all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      box-shadow:0 2px 8px rgba(0,0,0,0.15);
+      cursor:pointer;
+      border:2px solid white;
+    }
+
+    .welcome-banner a:hover{
+      transform:translateY(-3px) scale(1.08);
+      box-shadow:0 6px 20px rgba(0,0,0,0.25);
+      background:var(--wood2);
+      color:white;
+      border-color:var(--wood2);
+    }
+
+    .welcome-banner a:active{
+      transform:translateY(-1px);
+    }
+
+    /* HAMBURGER */
+    .hamburger{
+      display:none;
+      flex-direction:column;
+      cursor:pointer;
+      gap:5px;
+      margin-left:auto;
+      order:999;
+      padding:8px 4px;
+      touch-action:manipulation;
+    }
+    .hamburger span{
+      width:28px;
+      height:3px;
+      background:var(--wood2);
+      transition:all 0.3s ease;
+      border-radius:2px;
+    }
+    .hamburger.active span:nth-child(1){
+      transform:rotate(45deg) translate(10px, 10px);
+    }
+    .hamburger.active span:nth-child(2){
+      opacity:0;
+      transform:translateX(-10px);
+    }
+    .hamburger.active span:nth-child(3){
+      transform:rotate(-45deg) translate(8px, -8px);
+    }
+
+    /* MOBILE MENU */
+    .mobile-menu{
+      display:none;
+      flex-direction:column;
+      background:white;
+      padding:15px;
+      gap:12px;
+      border-top:1px solid #eee;
+      max-height:calc(100vh - 180px);
+      overflow-y:auto;
+      box-shadow:0 4px 8px rgba(0,0,0,0.08);
+    }
+
+    .mobile-menu.active{display:flex}
+
+    .mobile-search{
+      padding:10px 12px;
+      border-radius:10px;
+      border:1px solid rgba(0,0,0,0.12);
+      width:100%;
+      font-size:14px;
+      font-family:inherit;
+    }
+
+    .mobile-menu a{
+      text-decoration:none;
+      color:var(--wood2);
+      font-size:16px;
+      padding:12px 0;
+      border-bottom:1px solid rgba(0,0,0,0.04);
+      font-weight:500;
+      transition:color 0.2s ease;
+    }
+    
+    .mobile-menu a:hover{color:var(--wood1)}
+    .mobile-menu a:last-child{border-bottom:none}
+
+    /* OLD THEME COLORS FOR CONTENT */
+    .btn{
+      background:var(--deep);
+      color:#fff;
+      padding:10px 14px;
+      border-radius:10px;
+      text-decoration:none;
+      font-weight:600;
+      box-shadow: 0 8px 20px rgba(93,64,55,0.12);
+    }
+    .cart-btn{
+      background:transparent;
+      border:1px solid rgba(0,0,0,0.06);
+      padding:8px 10px;
+      border-radius:8px;
+      color:var(--wood1);
+      cursor:pointer;
+    }
+    
+    @media(max-width:768px){
+      .search-box{
+        display:none;
+      }
+      .hamburger{
+        display:flex;
+      }
+      .mobile-cart-icon{
+        display:inline-flex !important;
+      }
+      .right-icons{
+        display:none;
+      }
+    }
+
+    @media(min-width:769px){
+      .hamburger{
+        display:none;
+      }
+      .mobile-cart-icon{
+        display:none;
+      }
+    }
+
+    /* Hero */
+    .hero{
+      max-width:1150px;
+      margin:28px auto;
+      display:grid;
+      grid-template-columns: 1fr 430px;
+      gap:28px;
+      align-items:center;
+      padding:6px 22px 40px;
+    }
+    .hero-card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.6));
+      border-radius:18px;
+      padding:28px;
+      box-shadow: 0 12px 30px rgba(30,30,30,0.04);
+    }
+    .headline{
+      font-family:"Playfair Display", serif;
+      font-size:36px;
+      margin:0 0 10px;
+      color:var(--wood1);
+    }
+    .sub{
+      color:var(--muted);
+      margin-bottom:18px;
+    }
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+    .cta{
+      background:var(--wood1);
+      color:white;padding:12px 16px;border-radius:12px;text-decoration:none;font-weight:600;
+      box-shadow: 0 8px 20px rgba(139,94,60,0.12)
+    }
+    .secondary{
+      background:transparent;border:1px solid rgba(93,64,55,0.12);padding:11px 14px;border-radius:12px;text-decoration:none;color:var(--text)
+    }
+
+    /* Feature strip */
+    .features{
+      display:flex;gap:12px;margin-top:18px;
+    }
+    .f{
+      background:linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.4));
+      border-radius:12px;padding:12px 14px;font-size:14px;color:var(--muted);
+      display:flex;gap:10px;align-items:center;
+    }
+
+    /* Showcase */
+    .hero-right{
+      border-radius:18px;
+      overflow:hidden;
+      background: linear-gradient(180deg,#fff 0%, #FBF9F6 100%);
+      padding:14px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .showcase{
+      width:100%;border-radius:14px;
+      background-image: url(''); /* optional background */
+      padding:18px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:12px;
+      align-items:center;
+      justify-items:center;
+    }
+    .showcase img{max-width:100%;height:auto;border-radius:12px;box-shadow: 0 10px 30px rgba(0,0,0,0.08);}
+
+    /* Products */
+    .section{
+      max-width:1150px;margin:0 auto;padding:22px;
+    }
+    .section h2{font-family:"Playfair Display",serif;color:var(--wood1);font-size:26px;margin:6px 0 14px}
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+      gap:18px;
+    }
+    .card{
+      background: white;border-radius:14px;padding:12px;box-shadow: 0 8px 20px rgba(18,18,18,0.04);
+      transition: transform .28s ease, box-shadow .28s ease;
+      overflow:hidden;
+      display:flex;flex-direction:column;gap:10px;
+      max-width:100%;
+      width:100%;
+    }
+    .card.hidden-product{
+      display:none !important;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+    .grid.filtering {
+      grid-template-columns: 1fr;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    .grid.filtering .card {
+      max-width: 100%;
+    }
+    .card:hover{transform:translateY(-6px);box-shadow: 0 18px 40px rgba(18,18,18,0.08);}
+    .thumb{height:200px;border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:var(--glass)}
+    .thumb img{width:100%;height:100%;object-fit:cover}
+    .meta{display:flex;align-items:center;justify-content:space-between;padding:6px 2px}
+    .meta h3{margin:0;font-size:16px}
+    .price{font-weight:700;color:var(--wood1)}
+    .card p{font-size:13px;color:var(--muted);margin:0 0 6px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .actions{display:flex;flex-direction:row;gap:8px;align-items:center}
+    /* Slider Styles */
+    .slider-container{
+      max-width:1150px;
+      margin:20px auto;
+      padding:0 22px;
+    }
+
+    .slider{
+      position:relative;
+      width:100%;
+      height:400px;
+      border-radius:16px;
+      overflow:hidden;
+      background:linear-gradient(135deg, var(--wood1) 0%, var(--wood2) 100%);
+      box-shadow:0 12px 40px rgba(139,94,60,0.2);
+    }
+
+    .slider-inner{
+      position:relative;
+      width:100%;
+      height:100%;
+      overflow:hidden;
+    }
+
+    .slide{
+      position:absolute;
+      width:100%;
+      height:100%;
+      opacity:0;
+      transition:opacity 0.8s ease-in-out;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .slide.active{
+      opacity:1;
+    }
+
+    .slide img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .slider-dots{
+      position:absolute;
+      bottom:16px;
+      left:50%;
+      transform:translateX(-50%);
+      display:flex;
+      gap:8px;
+      z-index:10;
+    }
+
+    .dot{
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background:rgba(255,255,255,0.5);
+      cursor:pointer;
+      transition:all 0.3s ease;
+    }
+
+    .dot.active{
+      background:white;
+      width:28px;
+      border-radius:5px;
+    }
+
+    .slider-controls{
+      position:absolute;
+      top:50%;
+      transform:translateY(-50%);
+      width:100%;
+      display:flex;
+      justify-content:space-between;
+      padding:0 16px;
+      z-index:5;
+      pointer-events:none;
+    }
+
+    .slider-btn{
+      background:rgba(255,255,255,0.3);
+      border:2px solid white;
+      color:white;
+      width:45px;
+      height:45px;
+      border-radius:50%;
+      font-size:20px;
+      cursor:pointer;
+      transition:all 0.3s ease;
+      pointer-events:all;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .slider-btn:hover{
+      background:rgba(255,255,255,0.6);
+      transform:scale(1.1);
+    }
+    .order-btn{flex:1;background:linear-gradient(90deg,var(--wood2),var(--wood1));color:white;padding:12px 14px;border-radius:12px;text-align:center;text-decoration:none;font-weight:700;font-size:15px;border:none;cursor:pointer}
+    .view-btn{flex:0 0 44px;background:#fff;border:1px solid rgba(0,0,0,0.1);border-radius:10px;color:var(--wood1);display:flex;align-items:center;justify-content:center;text-decoration:none;padding:10px;font-size:18px;cursor:pointer}
+    .cart-btn{flex:0 0 44px;background:#fff;border:1px solid rgba(0,0,0,0.06);border-radius:10px;padding:10px;color:var(--wood1);cursor:pointer;display:flex;align-items:center;justify-content:center}
+    .wishlist-btn{flex:0 0 44px;background:#fff;border:1px solid rgba(0,0,0,0.1);border-radius:10px;color:var(--wood1);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.3s ease;font-size:18px;padding:10px;text-decoration:none}
+    .wishlist-btn:hover{color:#e74c3c;transform:scale(1.1)}
+    .wishlist-btn.added{color:#e74c3c}
+    .wishlist-btn.added i{animation:heartPulse 0.6s ease}
+    @keyframes heartPulse{
+      0%{transform:scale(1)}
+      50%{transform:scale(1.3)}
+      100%{transform:scale(1)}
+    }
+
+    /* Quantity controls for cart (plus / qty / minus) */
+    .qty-controls{display:flex;align-items:center;gap:8px}
+    .qty-controls button{background:#fff;border:1px solid rgba(0,0,0,0.06);padding:6px 10px;border-radius:8px;color:var(--wood1);cursor:pointer;font-weight:700}
+    .qty-controls .qty-num{min-width:28px;text-align:center;font-weight:700;color:var(--text)}
+
+    /* Testimonials / about */
+    .about{
+      display:grid;grid-template-columns:1fr 320px;gap:18px;align-items:center;
+    }
+    .about-card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.86), rgba(255,255,255,0.6));
+      border-radius:12px;padding:18px;
+    }
+
+    /* Footer */
+    footer{
+      margin-top:28px;padding:36px 22px;background:linear-gradient(180deg, #fff, #fbf9f6);
+      border-top:1px solid rgba(0,0,0,0.04);
+    }
+    .foot-inner{max-width:1150px;margin:0 auto;display:flex;gap:28px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+    .site-footer .footer-col{min-width:180px}
+    .site-footer h3,.site-footer h4{margin:0 0 8px;color:var(--wood1)}
+    .site-footer p{margin:0 0 8px;color:var(--muted)}
+    .newsletter-form{display:flex;gap:8px;align-items:center;margin-top:8px}
+    .newsletter-form input{flex:1;padding:10px;border:1px solid rgba(0,0,0,0.08);border-radius:6px;font-size:14px}
+    .newsletter-form button{padding:10px 14px;border-radius:6px;border:none;background:var(--wood1);color:#fff;cursor:pointer}
+    .quick-links ul,.categories ul{list-style:none;padding:0;margin:0}
+    .quick-links li,.categories li{margin-bottom:6px}
+    .quick-links a{color:var(--text);text-decoration:none}
+    .quick-links a:hover{color:var(--wood1)}
+    .categories a{color:#000;text-decoration:none;font-weight:500}
+    .categories a:hover{color:var(--wood1)}
+    .categories p{color:#000;font-weight:500}
+    .contact a{color:#000;text-decoration:none;font-weight:500}
+    .contact a:hover{color:var(--wood1)}
+    .contact p{color:#000;font-weight:500}
+    .social a{color:var(--wood1);margin-right:12px;text-decoration:none;font-size:18px}
+    .foot-bottom{max-width:1150px;margin:18px auto 0;display:flex;justify-content:space-between;align-items:center;gap:12px;color:var(--muted);font-size:13px}
+
+    /* Back to top */
+    .back-to-top{position:fixed;right:18px;bottom:18px;background:var(--wood1);color:#fff;border:none;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 8px 20px rgba(0,0,0,0.12);cursor:pointer;opacity:0;visibility:hidden;transition:all 0.25s ease}
+    .back-to-top.show{opacity:1;visibility:visible;transform:translateY(-6px)}
+
+    /* Subscribe toast */
+    .subscribe-toast{position:fixed;left:50%;transform:translateX(-50%);bottom:80px;background:var(--wood2);color:white;padding:10px 16px;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,0.18);display:none;z-index:3000}
+
+    /* Modal lightbox */
+    .modal{
+      position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);z-index:2000;padding:20px;
+    }
+    .modal.show{display:flex}
+    .modal-box{background:white;border-radius:12px;max-width:920px;width:100%;overflow:hidden;display:grid;grid-template-columns: 1fr 360px;gap:18px}
+    .modal-left img{width:100%;height:100%;object-fit:cover}
+    .modal-right{padding:18px;display:flex;flex-direction:column;gap:12px}
+    .specs{font-size:14px;color:var(--muted)}
+    .add{background:var(--wood1);color:#fff;padding:12px;border-radius:10px;text-decoration:none;text-align:center;font-weight:700}
+
+    /* Contact modal */
+    .contact-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);z-index:2100;padding:18px}
+    .contact-modal.show{display:flex}
+    .contact-box{background:white;border-radius:12px;max-width:720px;width:100%;padding:18px}
+    .contact-box h3{margin:0 0 8px;color:var(--wood1);font-family:"Playfair Display", serif}
+    .contact-row{display:flex;gap:8px;flex-wrap:wrap}
+    .contact-row input,.contact-row textarea{width:100%;padding:8px;border:1px solid rgba(0,0,0,0.07);border-radius:8px}
+    .contact-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:10px}
+
+    /* Responsive - Tablet & Desktop */
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr; padding-bottom:8px}
+      .modal-box{grid-template-columns:1fr}
+      .about{grid-template-columns:1fr}
+      .nav{padding:10px 12px;gap:12px}
+      .search-box{max-width:250px;font-size:12px}
+      .right-icons{gap:10px}
+      .right-icons i{font-size:18px}
+    }
+
+    /* Mobile - Small phones */
+    @media (max-width:768px){
+      .right-icons{display:none}
+      .mobile-cart-icon{display:inline-block !important}
+      .mobile-search-bar{display:flex !important}
+      .search-box{display:none}
+      html{font-size:16px}
+      body{padding-top:80px;padding-bottom:80px}
+      .nav{flex-wrap:nowrap;padding:6px 8px;gap:6px;justify-content:flex-start;align-items:center}
+      .brand{gap:6px;flex-shrink:0;order:1}
+      .logo{height:44px;width:44px;font-size:12px;border-radius:6px}
+      .brand h1{font-size:15px;margin:0;white-space:nowrap}
+      .brand p{display:none}
+      .mobile-search-bar{flex:1;font-size:12px;max-width:none;margin:0 6px;order:2}
+      .mobile-search-bar input{font-size:12px}
+      .hamburger{display:flex;margin-left:auto;gap:5px;padding:8px 6px;order:3;flex-shrink:0}
+      
+      /* Bottom Navigation */
+      .mobile-bottom-nav{display:flex !important;position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid rgba(0,0,0,0.08);z-index:998;height:80px;align-items:center;justify-content:space-around;gap:0;padding:0;box-shadow:0 -2px 10px rgba(0,0,0,0.05)}
+      .mobile-bottom-nav a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;flex:1;height:100%;text-decoration:none;color:var(--wood1);font-size:24px;padding:8px 0}
+      .mobile-bottom-nav p{margin:0;font-size:10px;font-weight:600;color:var(--wood1)}
+      .mobile-bottom-nav span{position:absolute;top:2px;right:4px;background:red;color:white;border-radius:50%;width:18px;height:18px;font-size:9px;display:flex;align-items:center;justify-content:center;font-weight:700}
+      
+      /* Header responsive */
+      header{position:fixed;top:0;left:0;right:0;z-index:999;background:white}
+      
+      /* Hero adjustments */
+      .hero{grid-template-columns:1fr;gap:16px;padding:8px 12px 20px;margin:16px auto;max-width:100%}
+      .headline{font-size:28px;margin:0 0 8px}
+      .hero-card{padding:16px;border-radius:12px}
+      .sub{font-size:13px;margin-bottom:12px}
+      .slider{height:280px}
+      
+      /* Product grid mobile */
+      .grid{grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;padding:0 8px}
+      .card{padding:10px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.06)}
+      .thumb{height:140px;border-radius:8px}
+      .card p{font-size:12px}
+      .meta h3{font-size:13px}
+      .price{font-size:14px}
+      .actions{gap:6px}
+      
+      /* Buttons mobile */
+      .order-btn{padding:10px 10px;font-size:13px;border-radius:8px}
+      .view-btn,.wishlist-btn{flex:0 0 36px;padding:6px;font-size:16px}
+      
+      /* Section */
+      .section{max-width:100%;padding:14px;margin:0}
+      .section h2{font-size:20px;margin:4px 0 10px}
+      
+      /* About section */
+      .about{gap:12px}
+      .about-card{padding:12px}
+      .about-card h2{font-size:18px}
+      .about-card p{font-size:13px}
+      
+      /* Footer */
+      footer{padding:24px 14px;margin-top:20px;background:linear-gradient(180deg, #fff 0%, #faf8f5 100%);border-top:2px solid rgba(139,94,60,0.1)}
+      .foot-inner{flex-direction:column;gap:18px;font-size:12px}
+      .site-footer .footer-col{min-width:auto;padding-bottom:12px}
+      .site-footer .footer-col.categories,.site-footer .footer-col.contact{border-bottom:none}
+      .site-footer .footer-col:last-child{border-bottom:none}
+      .site-footer h3,.site-footer h4{font-size:14px;font-weight:700;margin:0 0 10px;color:var(--wood1)}
+      .site-footer p{font-size:12px;line-height:1.5}
+      .newsletter-form{gap:6px;margin-top:8px}
+      .newsletter-form input{flex:1;font-size:12px;padding:10px;border:1px solid rgba(0,0,0,0.1);border-radius:6px}
+      .newsletter-form button{font-size:12px;padding:10px 14px;background:var(--wood1);color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:600}
+      .quick-links a,.categories a{font-size:13px;display:block;padding:6px 0;color:var(--text);text-decoration:none;transition:color 0.2s}
+      .quick-links a:hover,.categories a:hover{color:var(--wood1)}
+      .social a{font-size:18px;margin-right:12px;color:var(--wood1)}
+      .foot-bottom{flex-direction:column;gap:10px;font-size:11px;text-align:center;padding-top:12px;border-top:1px solid rgba(0,0,0,0.05)}
+      
+      /* Back to top */
+      .back-to-top{width:40px;height:40px;font-size:18px;right:12px;bottom:60px}
+      
+      /* Modal */
+      .modal-box{padding:12px;gap:12px}
+      .modal-right{padding:12px}
+      .contact-box{padding:12px}
+    }
+
+    /* Extra small phones */
+    @media (max-width:480px){
+      html{font-size:14px}
+      .nav{padding:6px 8px}
+      .logo{height:44px}
+      .brand h1{font-size:14px}
+      .search-box{font-size:12px}
+      
+      .headline{font-size:22px}
+      .slider{height:200px}
+      .grid{grid-template-columns:repeat(2,1fr);gap:10px;padding:0 6px}
+      .card{padding:8px}
+      .thumb{height:100px}
+      .meta h3{font-size:12px}
+      .price{font-size:12px}
+      
+      .order-btn{padding:8px;font-size:12px}
+      .view-btn,.wishlist-btn{flex:0 0 32px;font-size:14px}
+      
+      .section{padding:10px}
+      .section h2{font-size:18px}
+      
+      footer{padding:18px 10px;border-top:2px solid rgba(139,94,60,0.1)}
+      .foot-inner{gap:14px}
+      .site-footer h3{font-size:13px;margin-bottom:8px}
+      .newsletter-form input,.newsletter-form button{font-size:11px;padding:8px}
+      .back-to-top{width:36px;height:36px;font-size:16px}
+    }
+
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+
+    <!-- LEFT -->
+    <div class="brand">
+      <div class="logo">
+        <img src="logo.jpg.jpg" alt="Wood Vibes Logo" style="width:151%;height:135%;object-fit:contain">
+      </div>
+      <div>
+        <h1>Wood Vibes</h1>
+        <p>Handcrafted wooden kitchenware</p>
+      </div>
+    </div>
+
+    <!-- MOBILE SEARCH -->
+    <div class="mobile-search-bar" style="display:none;flex:1;max-width:200px;margin:0 8px;background:white;border-radius:8px;border:1px solid rgba(0,0,0,0.1);padding:6px 10px;align-items:center;gap:6px">
+      <input type="text" id="mobileHeaderSearchInput" placeholder="Search..." style="flex:1;border:none;outline:none;font-size:13px;background:transparent" />
+      <button style="background:none;border:none;color:var(--wood1);cursor:pointer;font-size:14px;padding:0"><i class="fa fa-search"></i></button>
+      <button style="background:none;border:none;color:var(--wood1);cursor:pointer;font-size:14px;padding:0" title="Photo Search"><i class="fa-solid fa-camera"></i></button>
+    </div>
+
+    <!-- CENTER SEARCH -->
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search products..." />
+      <button id="searchBtn" style="background:none;border:none;color:var(--wood1);cursor:pointer;font-size:16px;padding:0 8px"><i class="fa fa-search"></i></button>
+      <button id="closeSearchBtn" style="background:none;border:none;color:var(--wood1);cursor:pointer;font-size:16px;padding:0 8px;display:none"><i class="fa fa-times"></i></button>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="right-icons">
+
+      <!-- PRODUCTS LINK -->
+      <a href="#products" style="text-decoration:none;color:var(--wood1);font-weight:500;font-size:18px;cursor:pointer" title="Products"><i class="fa-solid fa-th"></i></a>
+
+      <!-- ABOUT LINK -->
+      <a href="#about" style="text-decoration:none;color:var(--wood1);font-weight:500;font-size:18px;cursor:pointer" title="About"><i class="fa-solid fa-info-circle"></i></a>
+
+      <!-- CONTACT LINK -->
+      <a href="#contact" style="text-decoration:none;color:var(--wood1);font-weight:500;font-size:18px;cursor:pointer" title="Contact"><i class="fa-solid fa-envelope"></i></a>
+
+      <!-- WISHLIST HEART -->
+      <a href="#" style="text-decoration:none;color:var(--wood1);font-weight:500;font-size:18px;cursor:pointer" title="Wishlist" id="wishlistHeader" onclick="toggleWishlistView(event)"><i class="fa-regular fa-heart"></i></a>
+
+      <!-- CART -->
+      <a href="cart.html" class="cart-link">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span class="cart-badge" id="cartCount">0</span>
+      </a>
+      <div id="cartPreview" class="cart-preview" aria-hidden="true">
+        <!-- populated by JS -->
+        <div class="empty">Your cart is empty</div>
+      </div>
+
+      <!-- PROFILE -->
+      <div class="profile-wrapper">
+        <i class="fa-solid fa-user" id="profileBtn"></i>
+
+        <div class="profile-menu" id="profileMenu">
+          <a href="signin.html" style="font-weight:700;color:#fff;background:var(--wood1);border-radius:8px;margin:6px 8px;padding:10px 12px;border:none;text-align:center;transition:all 0.3s ease" onmouseover="this.style.background='var(--wood2)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='var(--wood1)';this.style.transform='translateY(0)'">Sign In</a>
+          <a href="signup.html" style="font-size:12px;color:var(--muted);border:none;padding-top:8px;padding-bottom:8px">New Customer? Start Here</a>
+          <hr style="margin:10px 0;border:none;border-top:1px solid rgba(0,0,0,0.05)">
+          <a href="myprofile.html">My Profile</a>
+          <a href="myorder.html">My Orders</a>
+          <a href="#" onclick="toggleWishlistView(event)">Wishlist</a>
+          <a href="saved-address.html">Saved Address</a>
+          <a href="track-order.html">Track Order</a>
+          <a href="help-desk.html">Help Desk</a>
+          <a href="logout.html" class="logout">Logout</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <input type="text" id="mobileSearchInput" placeholder="Search..." class="mobile-search">
+
+    <div style="display:flex;gap:12px;justify-content:space-around;padding:10px 0;border-bottom:1px solid rgba(0,0,0,0.05)">
+      <a href="#products" style="text-align:center;text-decoration:none;color:var(--wood1);flex:1;padding:8px;border-radius:8px" title="Products"><i class="fa-solid fa-th" style="font-size:20px"></i><p style="margin:4px 0 0;font-size:11px;font-weight:600">Products</p></a>
+      <a href="#about" style="text-align:center;text-decoration:none;color:var(--wood1);flex:1;padding:8px;border-radius:8px" title="About"><i class="fa-solid fa-info-circle" style="font-size:20px"></i><p style="margin:4px 0 0;font-size:11px;font-weight:600">About</p></a>
+      <a href="cart.html" style="text-align:center;text-decoration:none;color:var(--wood1);flex:1;padding:8px;border-radius:8px;position:relative" title="Cart"><i class="fa-solid fa-cart-shopping" style="font-size:20px"></i><span style="position:absolute;top:0;right:0;background:red;color:white;border-radius:50%;width:18px;height:18px;font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:700" id="mobileCartBadge">0</span><p style="margin:4px 0 0;font-size:11px;font-weight:600">Cart</p></a>
+      <a href="#" onclick="toggleWishlistView(event)" style="text-align:center;text-decoration:none;color:var(--wood1);flex:1;padding:8px;border-radius:8px" title="Wishlist"><i class="fa-regular fa-heart" style="font-size:20px"></i><p style="margin:4px 0 0;font-size:11px;font-weight:600">Wishlist</p></a>
+      <a href="#contact" style="text-align:center;text-decoration:none;color:var(--wood1);flex:1;padding:8px;border-radius:8px" title="Contact"><i class="fa-solid fa-envelope" style="font-size:20px"></i><p style="margin:4px 0 0;font-size:11px;font-weight:600">Contact</p></a>
+    </div>
+
+    <a href="signin.html" style="font-weight:700;color:#fff;background:var(--wood1);border-radius:8px;margin:8px;padding:10px 12px;border:none;text-align:center;transition:all 0.3s ease;display:block;text-decoration:none">Sign In</a>
+    <a href="signup.html" style="font-size:12px;color:var(--muted);padding:8px 0;display:block;text-decoration:none">New Customer? Start Here</a>
+
+    <hr style="margin:8px 0;border:none;border-top:1px solid rgba(0,0,0,0.05)">
+
+    <a href="myprofile.html" style="display:block;padding:10px;text-decoration:none;color:var(--wood2)"><i class="fa-solid fa-user"></i> My Profile</a>
+    <a href="myorder.html" style="display:block;padding:10px;text-decoration:none;color:var(--wood2)"><i class="fa-solid fa-box"></i> My Orders</a>
+    <a href="saved-address.html" style="display:block;padding:10px;text-decoration:none;color:var(--wood2)"><i class="fa-solid fa-map-marker-alt"></i> Saved Address</a>
+    <a href="track-order.html" style="display:block;padding:10px;text-decoration:none;color:var(--wood2)"><i class="fa-solid fa-truck"></i> Track Order</a>
+    <a href="help-desk.html" style="display:block;padding:10px;text-decoration:none;color:var(--wood2)"><i class="fa-solid fa-headset"></i> Help Desk</a>
+    
+    <hr style="margin:8px 0;border:none;border-top:1px solid rgba(0,0,0,0.05)">
+
+    <a href="https://wa.me/919825060964" target="_blank" style="display:block;padding:10px;text-decoration:none;color:#25d366;font-weight:600"><i class="fab fa-whatsapp"></i> WhatsApp Order</a>
+    <a href="logout.html" style="display:block;padding:10px;text-decoration:none;color:#c62828;font-weight:600"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
+  </div>
+</header>
+
+<!-- WELCOME BANNER -->
+<div class="welcome-banner" id="welcomeBanner">
+  <span id="welcomeText">Hey User, Welcome to Wood Vibes!</span>
+  <a href="#products">Order Now</a>
+  <button id="closeBanner" style="background:transparent;border:none;color:white;font-size:18px;cursor:pointer;padding:4px 8px;margin-left:auto;transition:all 0.3s ease;opacity:0.8" onmouseover="this.style.opacity='1';this.style.transform='scale(1.2)'" onmouseout="this.style.opacity='0.8';this.style.transform='scale(1)'" title="Close">✕</button>
+</div>
+
+<!-- AUTOMATIC SLIDER -->
+<div class="slider-container">
+  <div class="slider" id="slider">
+    <div class="slider-inner">
+      <div class="slide active">
+        <img src="https://tse4.mm.bing.net/th/id/OIP.yAnSLw03TNAaaFAwdfxEmQHaHa?pid=Api&P=0&h=400" alt="Wooden Plates Showcase">
+      </div>
+      <div class="slide">
+        <img src="https://tse2.mm.bing.net/th/id/OIP.D5k9v3e3YqW8qwhNxjab-AHaEK?pid=Api&P=0&h=400" alt="Wooden Crafts">
+      </div>
+      <div class="slide">
+        <img src="https://tse3.mm.bing.net/th/id/OIP.KJ5d5XxYxYxYxYxYxYxYxYxYx?pid=Api&P=0&h=400" alt="Handmade Wood Products">
+      </div>
+    </div>
+    
+    <div class="slider-controls">
+      <button class="slider-btn" id="prevBtn" onclick="changeSlide(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+      <button class="slider-btn" id="nextBtn" onclick="changeSlide(1)"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+    
+    <div class="slider-dots">
+      <span class="dot active" onclick="currentSlide(0)"></span>
+      <span class="dot" onclick="currentSlide(1)"></span>
+      <span class="dot" onclick="currentSlide(2)"></span>
+    </div>
+  </div>
+</div>
+
+<main>
+  <section class="hero">
+    <div class="hero-card">
+      <h2 class="headline">Handmade wooden plates & platters — <span style="color:var(--wood2)">Natural, Durable, Aesthetic</span></h2>
+      <p class="sub">Premium acacia & mango wood kitchenware — perfect for gifting & everyday dining. Each piece handcrafted with love and food-safe finish.</p>
+
+      <div class="hero-actions">
+        <a class="cta" href="#products">Shop Collection</a>
+        <a class="secondary" href="#about">Our Story</a>
+      </div>
+
+      <div class="features" style="margin-top:18px">
+        <div class="f"><i class="fa-solid fa-seedling" style="color:var(--wood1)"></i>&nbsp;&nbsp;Eco Friendly</div>
+        <div class="f"><i class="fa-solid fa-handshake" style="color:var(--wood1)"></i>&nbsp;&nbsp;Handmade</div>
+        <div class="f"><i class="fa-solid fa-shield-halved" style="color:var(--wood1)"></i>&nbsp;&nbsp;Food-safe finish</div>
+      </div>
+    </div>
+
+    <!-- Wishlist Modal -->
+    <div class="contact-modal" id="wishlistModal">
+      <div class="contact-box">
+        <a href="#" id="closeWishlist" style="float:right;color:var(--muted);text-decoration:none;font-size:18px">&times;</a>
+        <h3>My Wishlist ❤️</h3>
+        <div id="wishlistContent" style="margin-top:12px;color:var(--muted)">
+          <p>Your wishlist is empty</p>
+        </div>
+      </div>
+    </div>
+
+      <!-- Contact Modal -->
+      <div class="contact-modal" id="contactModal">
+        <div class="contact-box">
+          <a href="#" id="closeContact" style="float:right;color:var(--muted);text-decoration:none;font-size:18px">&times;</a>
+          <h3>Contact Us</h3>
+          <p style="color:var(--muted);margin:6px 0 12px">Fill your details and message below — we'll get back to you.</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <input id="c_name" placeholder="Your name" style="flex:1;min-width:180px;padding:8px;border-radius:8px;border:1px solid rgba(0,0,0,0.07)" />
+            <input id="c_phone" placeholder="Phone (e.g. 9825060964)" style="width:200px;padding:8px;border-radius:8px;border:1px solid rgba(0,0,0,0.07)" />
+          </div>
+          <div style="margin-top:8px">
+            <input id="c_email" placeholder="Email (optional)" style="width:100%;padding:8px;border-radius:8px;border:1px solid rgba(0,0,0,0.07)" />
+          </div>
+          <div style="margin-top:8px">
+            <textarea id="c_message" rows="4" placeholder="Your message" style="width:100%;padding:8px;border-radius:8px;border:1px solid rgba(0,0,0,0.07)"></textarea>
+          </div>
+          <div class="contact-actions">
+            <button id="c_cancel" class="cart-btn">Cancel</button>
+            <button id="c_whatsapp" class="btn">Send via WhatsApp</button>
+            <button id="c_emailbtn" class="cart-btn" style="background:#fff;border:1px solid rgba(0,0,0,0.06);">Send Email</button>
+          </div>
+        </div>
+      </div>
+
+    <div class="hero-right">
+      <div class="showcase">
+        <img src="https://tse4.mm.bing.net/th/id/OIP.yAnSLw03TNAaaFAwdfxEmQHaHa?pid=Api&P=0&h=180" alt="Wooden plates showcase">
+      </div>
+    </div>
+  </section>
+
+  <!-- Products Section -->
+  <section id="products" class="section">
+    <h2>Our Collection</h2>
+    <div class="grid">
+      <!-- Wooden Plate -->
+      <div class="card">
+        <div class="thumb"><img src="woodenplate.jpg.jpg" alt="Wooden Dinner Plate"></div>
+        <div class="meta">
+          <h3>Wooden Dinner Plate</h3>
+          <span class="price">₹599</span>
+        </div>
+        <p>Premium wooden plate for dining. Elegant & durable everyday choice.</p>
+        <div class="actions">
+          <a class="order-btn" href="https://wa.me/91XXXXXXXXXX">Order Now</a>
+          <a class="view-btn" href="#"> <i class="fa-solid fa-eye"></i> </a>
+          <button class="wishlist-btn" data-product="Wooden Dinner Plate"><i class="fa-regular fa-heart"></i></button>
+        </div>
+      </div>
+
+      <!-- Fruit Bowl -->
+      <div class="card">
+        <div class="thumb"><img src="fruitebowl.jpg.jpg" alt="Wooden Fruit Bowl"></div>
+        <div class="meta">
+          <h3>Wooden Fruit Bowl</h3>
+          <span class="price">₹799</span>
+        </div>
+        <p>Handcrafted wooden fruit bowl. Natural grain with stylish finish.</p>
+        <div class="actions">
+          <a class="order-btn" href="https://wa.me/91XXXXXXXXXX">Order Now</a>
+          <a class="view-btn" href="#"> <i class="fa-solid fa-eye"></i> </a>
+          <button class="wishlist-btn" data-product="Wooden Fruit Bowl"><i class="fa-regular fa-heart"></i></button>
+        </div>
+      </div>
+
+      <!-- Spice Box -->
+      <div class="card">
+        <div class="thumb"><img src="spicebox.jpg.jpg" alt="Wooden Spice Box"></div>
+        <div class="meta">
+          <h3>Wooden Spice Box</h3>
+          <span class="price">₹899</span>
+        </div>
+        <p>Traditional spice box with compartments. Organize in style.</p>
+        <div class="actions">
+          <a class="order-btn" href="https://wa.me/91XXXXXXXXXX">Order Now</a>
+          <a class="view-btn" href="#"> <i class="fa-solid fa-eye"></i> </a>
+          <button class="wishlist-btn" data-product="Wooden Spice Box"><i class="fa-regular fa-heart"></i></button>
+        </div>
+      </div>
+
+      <!-- Spoon Container -->
+      <div class="card">
+        <div class="thumb"><img src="scontainer.jpg.jpg" alt="Wooden Spoon Container"></div>
+        <div class="meta">
+          <h3>Wooden Spoon Container</h3>
+          <span class="price">₹499</span>
+        </div>
+        <p>Elegant storage for cooking utensils. Keep everything organized.</p>
+        <div class="actions">
+          <a class="order-btn" href="https://wa.me/91XXXXXXXXXX">Order Now</a>
+          <a class="view-btn" href="#"> <i class="fa-solid fa-eye"></i> </a>
+          <button class="wishlist-btn" data-product="Wooden Spoon Container"><i class="fa-regular fa-heart"></i></button>
+        </div>
+      </div>
+
+      <!-- Tea Mug -->
+      <div class="card">
+        <div class="thumb"><img src="mug.jpg.jpg" alt="Wooden Tea Mug"></div>
+        <div class="meta">
+          <h3>Wooden Tea Mug</h3>
+          <span class="price">₹449</span>
+        </div>
+        <p>Natural wooden mug for hot beverages. Eco-friendly & stylish.</p>
+        <div class="actions">
+          <a class="order-btn" href="https://wa.me/91XXXXXXXXXX">Order Now</a>
+          <a class="view-btn" href="#"> <i class="fa-solid fa-eye"></i> </a>
+          <button class="wishlist-btn" data-product="Wooden Tea Mug"><i class="fa-regular fa-heart"></i></button>
+        </div>
+      </div>
+
+      <!-- 3-Space Spoon Container -->
+      <div class="card">
+        <div class="thumb"><img src="spooncon.jpg.jpg" alt="3-Space Spoon Container"></div>
+        <div class="meta">
+          <h3>3-Space Spoon Container</h3>
+          <span class="price">₹699</span>
+        </div>
+        <p>Three-compartment storage container. Perfect utensil organization.</p>
+        <div class="actions">
+          <a class="order-btn" href="https://wa.me/91XXXXXXXXXX">Order Now</a>
+          <a class="view-btn" href="#"> <i class="fa-solid fa-eye"></i> </a>
+          <button class="wishlist-btn" data-product="3-Space Spoon Container"><i class="fa-regular fa-heart"></i></button>
+        </div>
+      </div>
+
+      <!-- Spoon Set -->
+      <div class="card">
+        <div class="thumb"><img src="spoonset.jpg.jpg" alt="Wooden Spoon Set"></div>
+        <div class="meta">
+          <h3>Wooden Spoon Set (5 Pieces)</h3>
+          <span class="price">₹799</span>
+        </div>
+        <p>5-piece handcrafted spoon set. Various sizes for cooking.</p>
+        <div class="actions">
+          <a class="order-btn" href="https://wa.me/91XXXXXXXXXX">Order Now</a>
+          <a class="view-btn" href="#"> <i class="fa-solid fa-eye"></i> </a>
+          <button class="wishlist-btn" data-product="Wooden Spoon Set (5 Pieces)"><i class="fa-regular fa-heart"></i></button>
+        </div>
+      </div>
+
+      <!-- Juice Tray -->
+      <div class="card">
+        <div class="thumb"><img src="juicetray.jpg.jpg" alt="Wooden Juice Tray"></div>
+        <div class="meta">
+          <h3>Wooden Juice Tray</h3>
+          <span class="price">₹899</span>
+        </div>
+        <p>Elegant wooden tray for drinks. Perfect for entertaining guests.</p>
+        <div class="actions">
+          <a class="order-btn" href="https://wa.me/91XXXXXXXXXX">Order Now</a>
+          <a class="view-btn" href="#"> <i class="fa-solid fa-eye"></i> </a>
+          <button class="wishlist-btn" data-product="Wooden Juice Tray"><i class="fa-regular fa-heart"></i></button>
+        </div>
+      </div>
+
+      <!-- Momos Platter -->
+      <div class="card">
+        <div class="thumb"><img src="momosplatter.jpg.jpg" alt="Wooden Momos Platter"></div>
+        <div class="meta">
+          <h3>Wooden Momos Platter</h3>
+          <span class="price">₹749</span>
+        </div>
+        <p>Momos platter with dipping compartment. Specially designed serving.</p>
+        <div class="actions">
+          <a class="order-btn" href="https://wa.me/91XXXXXXXXXX">Order Now</a>
+          <a class="view-btn" href="#"> <i class="fa-solid fa-eye"></i> </a>
+          <button class="wishlist-btn" data-product="Wooden Momos Platter"><i class="fa-regular fa-heart"></i></button>
+        </div>
+      </div>
+
+      <!-- Spice Containers -->
+      <div class="card">
+        <div class="thumb"><img src="jeernamak.jpg.jpg" alt="Jeera & Namak Containers"></div>
+        <div class="meta">
+          <h3>Jeera & Namak Containers</h3>
+          <span class="price">₹649</span>
+        </div>
+        <p>Jeera & salt containers set. Perfect spice storage solution.</p>
+        <div class="actions">
+          <a class="order-btn" href="https://wa.me/91XXXXXXXXXX">Order Now</a>
+          <a class="view-btn" href="#"> <i class="fa-solid fa-eye"></i> </a>
+          <button class="wishlist-btn" data-product="Jeera & Namak Containers"><i class="fa-regular fa-heart"></i></button>
+        </div>
+      </div>
+
+      <!-- Pickle Container -->
+      <div class="card">
+        <div class="thumb"><img src="pickle.jpg.jpg" alt="Wooden Pickle Container"></div>
+        <div class="meta">
+          <h3>Wooden Pickle Container</h3>
+          <span class="price">₹699</span>
+        </div>
+        <p>Traditional pickle container. Specially designed storage.</p>
+        <div class="actions">
+          <a class="order-btn" href="https://wa.me/91XXXXXXXXXX">Order Now</a>
+          <a class="view-btn" href="#"> <i class="fa-solid fa-eye"></i> </a>
+          <button class="wishlist-btn" data-product="Wooden Pickle Container"><i class="fa-regular fa-heart"></i></button>
+        </div>
+      </div>
+
+      <!-- Roti Warmer -->
+      <div class="card">
+        <div class="thumb"><img src="rotiwarmer.jpg.jpg" alt="Wooden Roti Warmer"></div>
+        <div class="meta">
+          <h3>Wooden Roti Warmer</h3>
+          <span class="price">₹849</span>
+        </div>
+        <p>Roti warmer container. Keep rotis warm & fresh always.</p>
+        <div class="actions">
+          <a class="order-btn" href="https://wa.me/91XXXXXXXXXX">Order Now</a>
+          <a class="view-btn" href="#"> <i class="fa-solid fa-eye"></i> </a>
+          <button class="wishlist-btn" data-product="Wooden Roti Warmer"><i class="fa-regular fa-heart"></i></button>
+        </div>
+      </div>
+
+      <!-- Juice Glass -->
+      <div class="card">
+        <div class="thumb"><img src="juiceglass.jpg.jpg" alt="Wooden Juice Glass"></div>
+        <div class="meta">
+          <h3>Wooden Juice Glass</h3>
+          <span class="price">₹399</span>
+        </div>
+        <p>Natural wooden glass for juices. Eco-friendly drinkware.</p>
+        <div class="actions">
+          <a class="order-btn" href="https://wa.me/91XXXXXXXXXX">Order Now</a>
+          <a class="view-btn" href="#"> <i class="fa-solid fa-eye"></i> </a>
+          <button class="wishlist-btn" data-product="Wooden Juice Glass"><i class="fa-regular fa-heart"></i></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="section about">
+    <div class="about-card">
+      <h2>Our Story</h2>
+      <p>At Wooden Vibes, we create handmade wooden kitchenware that is not only beautiful but sustainable. Every plate, bowl, and platter is carefully crafted using ethically sourced acacia and mango wood.</p>
+      <p>We aim to bring warmth and natural aesthetics to your dining experience.</p>
+    </div>
+    <div>
+      <img src="https://tse2.mm.bing.net/th/id/OIP.D5k9v3e3YqW8qwhNxjab-AHaEK?pid=Api&P=0&h=180" alt="Crafting wood">
+    </div>
+  </section>
+
+  <!-- Contact / Footer -->
+  <footer id="contact" class="site-footer">
+    <div class="foot-inner footer-grid">
+      <div class="footer-col newsletter">
+        <h3>Join Our Newsletter</h3>
+        <p>Get updates, offers and 10% off your first order.</p>
+        <form id="newsletterForm" class="newsletter-form" onsubmit="return false;">
+          <input type="email" id="newsletterEmail" placeholder="Your email address" required />
+          <button type="submit" id="newsletterSubmit">Subscribe</button>
+        </form>
+        <div style="margin-top:8px;font-size:13px;color:var(--muted)">We respect your privacy. Unsubscribe anytime.</div>
+      </div>
+
+      <div class="footer-col quick-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#products">Collections</a></li>
+          <li><a href="myprofile.html">My Profile</a></li>
+          <li><a href="myorder.html">My Orders</a></li>
+          <li><a href="saved-address.html">Saved Address</a></li>
+          <li><a href="track-order.html">Track Order</a></li>
+          <li><a href="help-desk.html">Help Desk</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col categories">
+        <h4>Popular Categories</h4>
+        <ul>
+          <li><a href="#products">Plates & Platters</a></li>
+          <li><a href="#products">Bowls</a></li>
+          <li><a href="#products">Trays</a></li>
+          <li><a href="#products">Spoon Sets</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col contact">
+        <h4>Contact</h4>
+        <p>Email: <a href="mailto:info@woodenvibes.com">info@woodenvibes.com</a></p>
+        <p>WhatsApp: <a href="https://wa.me/919825060964">+91 98250 60964</a></p>
+        <div style="margin-top:10px">
+          <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" title="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+          <a href="https://wa.me/919825060964" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot-bottom">
+      <small>© <span id="currentYear"></span> Wooden Vibes — All rights reserved.</small>
+      <div style="display:flex;gap:12px">
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+      </div>
+    </div>
+  </footer>
+
+  <button id="backToTop" class="back-to-top" aria-label="Back to top">↑</button>
+
+  <div id="subscribeToast" class="subscribe-toast" role="status" aria-live="polite">Subscribed successfully</div>
+
+</main>
+<!-- Modal Lightbox -->
+<div class="modal" id="productModal">
+  <div class="modal-box">
+    <div class="modal-left">
+      <img id="modal-img" src="" alt="Product Image">
+    </div>
+    <div class="modal-right">
+      <h3 id="modal-title">Product Name</h3>
+      <p class="specs" id="modal-desc">Product Description</p>
+      <p class="price" id="modal-price">₹0</p>
+      <a id="modal-order" href="#" class="add" target="_blank">Order Now</a>
+    </div>
+  </div>
+</div>
+
+<!-- MOBILE BOTTOM NAVIGATION -->
+<div class="mobile-bottom-nav" style="display:none">
+  <a href="#products" title="Products" style="position:relative">
+    <i class="fa-solid fa-th"></i>
+    <p>Products</p>
+  </a>
+  <a href="#about" title="About" style="position:relative">
+    <i class="fa-solid fa-info-circle"></i>
+    <p>About</p>
+  </a>
+  <a href="#" onclick="toggleWishlistView(event)" title="Wishlist" style="position:relative">
+    <i class="fa-regular fa-heart"></i>
+    <p>Wishlist</p>
+  </a>
+  <a href="cart.html" title="Cart" style="position:relative">
+    <i class="fa-solid fa-cart-shopping"></i>
+    <span id="mobileBottomCartBadge">0</span>
+    <p>Cart</p>
+  </a>
+  <a href="#contact" title="Contact" style="position:relative">
+    <i class="fa-solid fa-envelope"></i>
+    <p>Contact</p>
+  </a>
+  <button id="hamburgerBtn" style="background:none;border:none;color:var(--wood1);font-size:24px;cursor:pointer;flex:1;height:100%;padding:8px 0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px" title="Menu">
+    <i class="fa-solid fa-bars"></i>
+    <p style="margin:0;font-size:10px;font-weight:600;color:var(--wood1)">Menu</p>
+  </button>
+</div>
+
+</body>
+<script>
+  /* PROFILE DROPDOWN */
+  const profileBtn = document.getElementById("profileBtn");
+  const profileMenu = document.getElementById("profileMenu");
+
+  profileBtn.onclick = () => {
+    profileMenu.style.display =
+      profileMenu.style.display === "flex" ? "none" : "flex";
+  };
+
+  document.addEventListener("click", (e)=>{
+    if(!profileBtn.contains(e.target) && !profileMenu.contains(e.target)){
+      profileMenu.style.display="none";
+    }
+  });
+
+  /* HAMBURGER */
+  const ham = document.getElementById("hamburger");
+  const mobMenu = document.getElementById("mobileMenu");
+
+  ham.onclick = () =>{
+    mobMenu.style.display =
+      mobMenu.style.display==="flex" ? "none":"flex";
+  };
+
+  /* SLIDER FUNCTIONALITY */
+  var currentSlideIndex = 0;
+  var slideInterval;
+
+  function showSlide(index){
+    var slides = document.querySelectorAll('.slide');
+    var dots = document.querySelectorAll('.dot');
+    
+    if(index >= slides.length) currentSlideIndex = 0;
+    if(index < 0) currentSlideIndex = slides.length - 1;
+    
+    slides.forEach(slide => slide.classList.remove('active'));
+    dots.forEach(dot => dot.classList.remove('active'));
+    
+    slides[currentSlideIndex].classList.add('active');
+    dots[currentSlideIndex].classList.add('active');
+  }
+
+  function changeSlide(n){
+    currentSlideIndex += n;
+    showSlide(currentSlideIndex);
+    resetAutoSlide();
+  }
+
+  function currentSlide(n){
+    currentSlideIndex = n;
+    showSlide(currentSlideIndex);
+    resetAutoSlide();
+  }
+
+  function autoSlide(){
+    currentSlideIndex++;
+    showSlide(currentSlideIndex);
+  }
+
+  function resetAutoSlide(){
+    clearInterval(slideInterval);
+    slideInterval = setInterval(autoSlide, 4000);
+  }
+
+  // Start auto slide on page load
+  document.addEventListener('DOMContentLoaded', function(){
+    slideInterval = setInterval(autoSlide, 4000);
+  });
+  
+  document.addEventListener('DOMContentLoaded', function(){
+    // Get elements after DOM is loaded
+    const searchInput = document.getElementById('searchInput');
+    const searchBtn = document.getElementById('searchBtn');
+    const closeSearchBtn = document.getElementById('closeSearchBtn');
+    
+    if(!searchInput || !searchBtn) {
+      console.log('Search elements not found');
+      return;
+    }
+    
+    // Initialize search after DOM is loaded
+    searchBtn.addEventListener('click', performSearch);
+    
+    if(closeSearchBtn){
+      closeSearchBtn.addEventListener('click', function(){
+        searchInput.value = '';
+        performSearch();
+      });
+    }
+    
+    searchInput.addEventListener('keypress', function(e){
+      if(e.key === 'Enter') performSearch();
+    });
+    
+    searchInput.addEventListener('input', function(){
+      if(this.value.trim() === ''){
+        performSearch();
+      }
+      // Sync with mobile search inputs
+      let mobileSearchInput = document.getElementById('mobileSearchInput');
+      let mobileHeaderSearchInput = document.getElementById('mobileHeaderSearchInput');
+      if(mobileSearchInput) mobileSearchInput.value = this.value;
+      if(mobileHeaderSearchInput) mobileHeaderSearchInput.value = this.value;
+    });
+
+    // Mobile search sync
+    let mobileSearchInput = document.getElementById('mobileSearchInput');
+    if(mobileSearchInput){
+      mobileSearchInput.addEventListener('input', function(){
+        searchInput.value = this.value;
+        if(this.value.trim() === ''){
+          performSearch();
+        }
+      });
+      mobileSearchInput.addEventListener('keypress', function(e){
+        if(e.key === 'Enter'){
+          searchInput.value = this.value;
+          performSearch();
+        }
+      });
+    }
+
+    let mobileHeaderSearchInput = document.getElementById('mobileHeaderSearchInput');
+    if(mobileHeaderSearchInput){
+      mobileHeaderSearchInput.addEventListener('input', function(){
+        searchInput.value = this.value;
+      });
+      mobileHeaderSearchInput.addEventListener('keypress', function(e){
+        if(e.key === 'Enter'){
+          searchInput.value = this.value;
+          performSearch();
+        }
+      });
+    }
+  });
+  
+  function performSearch(){
+    let searchInput = document.getElementById('searchInput');
+    let query = (searchInput ? searchInput.value : '').trim().toLowerCase();
+    let grid = document.querySelector('.grid');
+    if(!grid) {
+      console.log('Grid not found');
+      return;
+    }
+    
+    let cards = grid.querySelectorAll('.card');
+    console.log('Search query:', query, 'Cards found:', cards.length);
+    
+    if(!query){
+      // Reset - show all products
+      cards.forEach(card => {
+        card.classList.remove('hidden-product');
+      });
+      grid.classList.remove('filtering');
+      return;
+    }
+    
+    let matchCount = 0;
+    let firstMatch = null;
+    
+    cards.forEach(card => {
+      let title = (card.querySelector('.meta h3') || {}).innerText || '';
+      let desc = (card.querySelector('p:not(.site-footer *)') || {}).innerText || '';
+      let textContent = (title + ' ' + desc).toLowerCase();
+      let match = textContent.includes(query);
+      
+      if(match){
+        card.classList.remove('hidden-product');
+        matchCount++;
+        if(!firstMatch){
+          firstMatch = card;
+        }
+      } else {
+        card.classList.add('hidden-product');
+      }
+    });
+    
+    console.log('Matches found:', matchCount);
+    
+    if(matchCount > 0){
+      grid.classList.add('filtering');
+      // Scroll to products section
+      let productsSection = document.getElementById('products');
+      if(productsSection){
+        setTimeout(function(){
+          productsSection.scrollIntoView({behavior: 'smooth', block: 'start'});
+        }, 100);
+      }
+    }
+  }
+  
+  /* ORDER BUTTON LOGIN CHECK */
+  function isLoggedIn(){
+    return localStorage.getItem("logged_in")==="yes";
+  }
+
+  document.querySelectorAll(".order-btn").forEach(btn=>{
+    btn.addEventListener("click", function(e){
+      if(!isLoggedIn()){
+        e.preventDefault();
+        window.location.href="signin.html";
+      }
+    });
+  });
+
+  /* WELCOME BANNER */
+  function showWelcomeBanner(){
+    var banner = document.getElementById('welcomeBanner');
+    var welcomeText = document.getElementById('welcomeText');
+    var custName = localStorage.getItem('customerName');
+    var loggedIn = localStorage.getItem('logged_in') === 'yes';
+    if(loggedIn && custName){
+      welcomeText.textContent = 'Hey ' + custName + ', Welcome to Wood Vibes!';
+      if(banner) banner.classList.add('show');
+    } else {
+      if(banner) banner.classList.remove('show');
+    }
+  }
+
+  // Show welcome banner on page load and DOMContentLoaded
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', showWelcomeBanner);
+  } else {
+    showWelcomeBanner();
+  }
+  window.addEventListener('load', showWelcomeBanner);
+
+  // Close banner button
+  var closeBtn = document.getElementById('closeBanner');
+  if(closeBtn){
+    closeBtn.addEventListener('click', function(){
+      var banner = document.getElementById('welcomeBanner');
+      banner.style.animation = 'slideUp 0.4s ease-out forwards';
+      setTimeout(function(){
+        banner.classList.remove('show');
+      }, 400);
+    });
+  }
+
+  // Test function - you can use this to test the welcome banner
+  window.testLogin = function(name){
+    localStorage.setItem('logged_in', 'yes');
+    localStorage.setItem('customerName', name || 'Customer');
+    showWelcomeBanner();
+  };
+
+  // WISHLIST VIEW FUNCTION
+  function toggleWishlistView(event){
+    event.preventDefault();
+    var wishlistModal = document.getElementById('wishlistModal');
+    var wishlistContent = document.getElementById('wishlistContent');
+    var wishlist = JSON.parse(localStorage.getItem('wv_wishlist') || '[]');
+    
+    if(wishlist.length === 0){
+      wishlistContent.innerHTML = '<p style="color:var(--muted);text-align:center;padding:20px">Your wishlist is empty 💔</p>';
+    } else {
+      var html = '<div style="max-height:400px;overflow-y:auto">';
+      wishlist.forEach(function(product, index){
+        html += '<div style="padding:12px;border-bottom:1px solid rgba(0,0,0,0.05);display:flex;justify-content:space-between;align-items:center">';
+        html += '<span>' + (index + 1) + '. ' + product + '</span>';
+        html += '<button onclick="removeFromWishlist(\'' + product.replace(/'/g, "\\'") + '\')" style="background:#f0f0f0;border:none;padding:6px 10px;border-radius:6px;color:var(--wood1);cursor:pointer;font-size:12px;font-weight:600">Remove</button>';
+        html += '</div>';
+      });
+      html += '</div>';
+      wishlistContent.innerHTML = html;
+    }
+    
+    wishlistModal.classList.add('show');
+  }
+
+  function removeFromWishlist(product){
+    var wishlist = JSON.parse(localStorage.getItem('wv_wishlist') || '[]');
+    wishlist = wishlist.filter(p => p !== product);
+    localStorage.setItem('wv_wishlist', JSON.stringify(wishlist));
+    
+    // Update the heart icon on product card
+    document.querySelectorAll('.wishlist-btn').forEach(function(btn){
+      if(btn.getAttribute('data-product') === product){
+        btn.classList.remove('added');
+        btn.innerHTML = '<i class="fa-regular fa-heart"></i>';
+      }
+    });
+    
+    // Refresh wishlist modal
+    toggleWishlistView({preventDefault: function(){}});
+  }
+
+  // Close wishlist modal
+  var closeWishlistBtn = document.getElementById('closeWishlist');
+  if(closeWishlistBtn){
+    closeWishlistBtn.addEventListener('click', function(e){
+      e.preventDefault();
+      document.getElementById('wishlistModal').classList.remove('show');
+    });
+  }
+  
+  var wishlistModal = document.getElementById('wishlistModal');
+  if(wishlistModal){
+    wishlistModal.addEventListener('click', function(e){
+      if(e.target === wishlistModal){
+        wishlistModal.classList.remove('show');
+      }
+    });
+  }
+
+  // Compact cart that persists to localStorage so cart.html can read it
+  (function(){
+    function load(){ try{ return JSON.parse(localStorage.getItem('wv_cart')||'[]'); }catch(e){return[];} }
+    function save(c){ localStorage.setItem('wv_cart', JSON.stringify(c||[])); if(window.wv_updateCartCount) window.wv_updateCartCount(); if(window.wv_updateCartPreview) window.wv_updateCartPreview(); }
+    var cart = load();
+    function upd(){ 
+      var e = document.getElementById('cartCount'); 
+      if(e) e.textContent = (cart||[]).reduce(function(s,i){return s + (i.q||0)},0);
+      var m = document.getElementById('mobileCartBadge');
+      if(m) m.textContent = (cart||[]).reduce(function(s,i){return s + (i.q||0)},0);
+      var mi = document.getElementById('mobileCartBadgeIcon');
+      if(mi) mi.textContent = (cart||[]).reduce(function(s,i){return s + (i.q||0)},0);
+      var mb = document.getElementById('mobileBottomCartBadge');
+      if(mb) mb.textContent = (cart||[]).reduce(function(s,i){return s + (i.q||0)},0);
+    }
+    function idify(t){ return (t||'').toLowerCase().replace(/[^a-z0-9]+/g,'-'); }
+
+    function makeAdd(id,title,price,img){
+      var b = document.createElement('button'); b.type='button'; b.className='order-btn'; b.textContent='Add to Cart';
+      b.dataset.id = id; b.dataset.title = title; b.dataset.price = price; b.dataset.img = img;
+      b.onclick = function(){ var found = cart.find(function(x){return x.id===id}); if(found) found.q = (found.q||0)+1; else cart.push({id:id,title:title,price:price,q:1,img:img}); save(cart); upd(); b.parentNode.replaceChild(makeQty(id, (found?found.q+1:1), title, price, img), b); };
+      return b;
+    }
+
+    function makeQty(id,n,title,price,img){
+      var w = document.createElement('div'); w.className = 'qty-controls';
+      w.dataset.id = id; w.dataset.title = title; w.dataset.price = price; w.dataset.img = img;
+      var m = document.createElement('button'); m.type='button'; m.textContent='-';
+      var s = document.createElement('span'); s.className='qty-num'; s.textContent = n;
+      var p = document.createElement('button'); p.type='button'; p.textContent='+';
+      m.onclick = function(){ change(id,-1,w,s); };
+      p.onclick = function(){ change(id,1,w,s); };
+      w.appendChild(m); w.appendChild(s); w.appendChild(p);
+      return w;
+    }
+
+    function change(id,delta,wrap,span){
+      var cur = cart.find(function(x){return x.id===id});
+      var val = (cur?cur.q:0) + delta;
+      if(val <= 0){ cart = cart.filter(function(x){return x.id !== id}); save(cart); var t = wrap.dataset.title||''; var pr = parseFloat(wrap.dataset.price)||0; var im = wrap.dataset.img||''; wrap.parentNode.replaceChild(makeAdd(id,t,pr,im), wrap); }
+      else { if(cur) cur.q = val; else cart.push({id:id,title:wrap.dataset.title||'',price:parseFloat(wrap.dataset.price)||0,q:val,img:wrap.dataset.img||''}); save(cart); span.textContent = val; }
+      upd();
+    }
+
+    function initCard(card){
+      var actions = card.querySelector('.actions'); if(!actions) return; if(actions.querySelector('.cart-add')||actions.querySelector('.qty-controls')) return;
+      var title = (card.querySelector('.meta h3')||{}).innerText || 'Product';
+      var price = parseFloat(((card.querySelector('.price')||{}).innerText||'').replace(/[^0-9.]/g,''))||0;
+      var img = (card.querySelector('img')||{}).src || '';
+      var id = idify(title);
+      // Find the order-btn and replace it with cart functionality
+      var ob = actions.querySelector('.order-btn'); 
+      if(ob){
+        // if already in cart, render qty controls instead
+        var exists = cart.find(function(x){return x.id===id});
+        if(exists) ob.parentNode.replaceChild(makeQty(id, exists.q, title, price, img), ob);
+        else ob.parentNode.replaceChild(makeAdd(id,title,price,img), ob);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function(){
+      document.querySelectorAll('.card').forEach(initCard);
+      var ham = document.getElementById('hamburger'), menu = document.getElementById('mobileMenu'); 
+      if(ham&&menu){ 
+        ham.onclick=function(){ 
+          ham.classList.toggle('active'); 
+          menu.classList.toggle('active'); 
+        };
+        // Close menu when clicking links
+        menu.querySelectorAll('a').forEach(function(link){
+          link.addEventListener('click', function(){
+            ham.classList.remove('active');
+            menu.classList.remove('active');
+          });
+        });
+      }
+      
+      // Mobile search sync
+      var mobileSearch = document.getElementById('mobileSearchInput');
+      var mainSearch = document.getElementById('searchInput');
+      if(mobileSearch && mainSearch){
+        mobileSearch.addEventListener('input', function(){
+          mainSearch.value = this.value;
+        });
+        mobileSearch.addEventListener('keypress', function(e){
+          if(e.key === 'Enter'){
+            mainSearch.value = this.value;
+            performSearch();
+            ham.classList.remove('active');
+            menu.classList.remove('active');
+          }
+        });
+      }
+      
+      document.querySelectorAll('.view-btn').forEach(function(b){ b.onclick=function(e){ e.preventDefault(); var c=b.closest('.card'); if(!c) return; document.getElementById('modal-img').src=(c.querySelector('img')||{}).src||''; document.getElementById('modal-title').innerText=(c.querySelector('.meta h3')||{}).innerText||''; document.getElementById('modal-desc').innerText=(c.querySelector('p')||{}).innerText||''; document.getElementById('modal-price').innerText=(c.querySelector('.price')||{}).innerText||''; document.getElementById('modal-order').href=(c.querySelector('.order-btn')||{}).href||'#'; document.getElementById('productModal').classList.add('show'); } });
+      var modal=document.getElementById('productModal'); if(modal) modal.onclick=function(e){ if(e.target===modal) modal.classList.remove('show'); };
+      
+      // WISHLIST FUNCTIONALITY
+      document.querySelectorAll('.wishlist-btn').forEach(function(btn){
+        var product = btn.getAttribute('data-product');
+        var wishlist = JSON.parse(localStorage.getItem('wv_wishlist') || '[]');
+        if(wishlist.includes(product)){
+          btn.classList.add('added');
+          btn.innerHTML = '<i class="fa-solid fa-heart"></i>';
+        }
+        btn.addEventListener('click', function(e){
+          e.preventDefault();
+          var wishlist = JSON.parse(localStorage.getItem('wv_wishlist') || '[]');
+          if(wishlist.includes(product)){
+            wishlist = wishlist.filter(p => p !== product);
+            btn.classList.remove('added');
+            btn.innerHTML = '<i class="fa-regular fa-heart"></i>';
+          } else {
+            wishlist.push(product);
+            btn.classList.add('added');
+            btn.innerHTML = '<i class="fa-solid fa-heart"></i>';
+          }
+          localStorage.setItem('wv_wishlist', JSON.stringify(wishlist));
+        });
+      });
+      
+      upd();
+      // update header cart preview after initial load
+      if(window.wv_updateCartPreview) window.wv_updateCartPreview();
+    });
+
+    // Contact modal wiring: open modal when header/mobile Contact links are clicked
+    var contactModal = document.getElementById('contactModal');
+    function openContact(){ if(contactModal) contactModal.classList.add('show'); }
+    function closeContact(){ if(contactModal) contactModal.classList.remove('show'); }
+    document.querySelectorAll('a[href="#contact"]').forEach(function(a){ a.addEventListener('click', function(e){ e.preventDefault(); openContact(); }); });
+    var closeBtn = document.getElementById('closeContact'); if(closeBtn) closeBtn.addEventListener('click', function(e){ e.preventDefault(); closeContact(); });
+    if(contactModal) contactModal.addEventListener('click', function(e){ if(e.target===contactModal) closeContact(); });
+    var cancel = document.getElementById('c_cancel'); if(cancel) cancel.addEventListener('click', function(){ closeContact(); });
+    // send via WhatsApp from modal
+    var waBtn = document.getElementById('c_whatsapp');
+    if(waBtn) waBtn.addEventListener('click', function(){
+      var name = (document.getElementById('c_name')||{}).value||'';
+      var phone = (document.getElementById('c_phone')||{}).value||'';
+      var email = (document.getElementById('c_email')||{}).value||'';
+      var msg = (document.getElementById('c_message')||{}).value||'';
+      if(!name.trim()){ alert('Please enter your name'); return; }
+      if(!msg.trim()){ alert('Please enter a message'); return; }
+      var lines = [];
+      lines.push('Contact from Wooden Vibes');
+      lines.push('');
+      lines.push('Name: ' + name);
+      if(phone) lines.push('Phone: ' + phone);
+      if(email) lines.push('Email: ' + email);
+      lines.push('');
+      lines.push('Message:');
+      lines.push(msg);
+      var target = '919825060964';
+      window.open('https://wa.me/' + target + '?text=' + encodeURIComponent(lines.join('\n')),'_blank');
+      closeContact();
+    });
+    // send via mail
+    var emailBtn = document.getElementById('c_emailbtn');
+    if(emailBtn) emailBtn.addEventListener('click', function(){
+      var name = (document.getElementById('c_name')||{}).value||'';
+      var phone = (document.getElementById('c_phone')||{}).value||'';
+      var email = (document.getElementById('c_email')||{}).value||'';
+      var msg = (document.getElementById('c_message')||{}).value||'';
+      if(!name.trim()){ alert('Please enter your name'); return; }
+      if(!msg.trim()){ alert('Please enter a message'); return; }
+      var body = 'Contact from Wooden Vibes\n\n' + 'Name: ' + name + '\n' + (phone?('Phone: '+phone+'\n'):'') + (email?('Email: '+email+'\n'):'') + '\nMessage:\n' + msg;
+      var mailto = 'mailto:info@woodenvibes.com?subject=' + encodeURIComponent('Website contact from ' + name) + '&body=' + encodeURIComponent(body);
+      window.location.href = mailto;
+      closeContact();
+    });
+  })();
+
+  /* Footer behaviors: newsletter subscribe + back-to-top */
+  (function(){
+    // set current year
+    var y = new Date().getFullYear();
+    var el = document.getElementById('currentYear'); if(el) el.textContent = y;
+
+    // Newsletter subscribe
+    var nf = document.getElementById('newsletterForm');
+    var emailInput = document.getElementById('newsletterEmail');
+    var toast = document.getElementById('subscribeToast');
+    function showToast(msg){ if(!toast) return; toast.textContent = msg; toast.style.display = 'block'; setTimeout(function(){ toast.style.display = 'none'; }, 2600); }
+
+    if(nf){
+      nf.addEventListener('submit', function(e){
+        e.preventDefault();
+        var email = (emailInput && emailInput.value||'').trim();
+        if(!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){
+          showToast('Please enter a valid email');
+          return;
+        }
+        try{
+          var list = JSON.parse(localStorage.getItem('wv_subscribers')||'[]');
+          if(!list.includes(email)) list.push(email);
+          localStorage.setItem('wv_subscribers', JSON.stringify(list));
+          emailInput.value = '';
+          showToast('Thanks! You are subscribed');
+        }catch(err){
+          console.warn(err); showToast('Unable to subscribe');
+        }
+      });
+    }
+
+    // back to top
+    var back = document.getElementById('backToTop');
+    function checkScroll(){ if(window.scrollY > 300){ back.classList.add('show'); } else { back.classList.remove('show'); } }
+    if(back){ back.addEventListener('click', function(){ window.scrollTo({top:0,behavior:'smooth'}); }); window.addEventListener('scroll', checkScroll); checkScroll(); }
+  })();
+
+  /* Cart preview updater and product badges/ratings */
+  (function(){
+    window.wv_updateCartPreview = function(){
+      var preview = document.getElementById('cartPreview');
+      if(!preview) return;
+      var cart = JSON.parse(localStorage.getItem('wv_cart')||'[]');
+      if(!cart || cart.length === 0){ preview.innerHTML = '<div class="empty">Your cart is empty</div>'; return; }
+      var html = '';
+      var total = 0;
+      cart.slice(0,6).forEach(function(item){
+        var price = parseFloat(item.price)||0; var qty = item.q||1; total += price * qty;
+        html += '<div class="item">';
+        html += '<img src="'+(item.img||'placeholder.jpg')+'" alt="'+(item.title||'')+'">';
+        html += '<div class="info"><h5>'+ (item.title||'Product') +'</h5>';
+        html += '<p>Qty: '+qty+' • ₹'+(price.toLocaleString())+'</p></div>';
+        html += '</div>';
+      });
+      html += '<div class="total"><span>Subtotal</span><span>₹'+(total.toLocaleString())+'</span></div>';
+      html += '<div class="preview-actions"><a class="btn" href="cart.html">View Cart</a><a class="btn" href="checkout.html">Checkout</a></div>';
+      preview.innerHTML = html;
+    };
+
+    // show/hide preview on hover or click
+    var cartLink = document.querySelector('.cart-link');
+    var previewEl = document.getElementById('cartPreview');
+    if(cartLink && previewEl){
+      cartLink.addEventListener('mouseenter', function(){ previewEl.classList.add('show'); previewEl.setAttribute('aria-hidden','false'); });
+      cartLink.addEventListener('mouseleave', function(e){ setTimeout(function(){ if(!previewEl.matches(':hover')){ previewEl.classList.remove('show'); previewEl.setAttribute('aria-hidden','true'); } }, 160); });
+      previewEl.addEventListener('mouseleave', function(){ previewEl.classList.remove('show'); previewEl.setAttribute('aria-hidden','true'); });
+      previewEl.addEventListener('mouseenter', function(){ previewEl.classList.add('show'); previewEl.setAttribute('aria-hidden','false'); });
+    }
+
+    // Add small rating and badge to each product card for a more professional feel
+    function decorateProducts(){
+      document.querySelectorAll('.card').forEach(function(card, idx){
+        if(card.querySelector('.product-badge')) return; // already decorated
+        // random badge
+        var r = Math.random();
+        var badge = '';
+        if(r > 0.85) badge = '<div class="product-badge">Bestseller</div>';
+        else if(r > 0.7) badge = '<div class="product-badge">New</div>';
+        var rating = Math.floor(35 + Math.random()*15)/10; // 3.5 - 5.0
+        var ratingHtml = '<div class="rating">' + '★'.repeat(Math.round(rating)) + ' <span style="color:var(--muted);font-size:13px;">('+rating.toFixed(1)+')</span></div>';
+        var meta = card.querySelector('.meta');
+        if(meta){ meta.insertAdjacentHTML('afterbegin', badge + ratingHtml); }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function(){ decorateProducts(); if(window.wv_updateCartPreview) window.wv_updateCartPreview(); });
+  })();
+
+</script>
+
+</html>
+
